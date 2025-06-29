@@ -20,7 +20,7 @@ export default function LoginScreen() {
       </View>
     </View>
   );
-}
+} 
 
 const styles = StyleSheet.create({
   container: {
