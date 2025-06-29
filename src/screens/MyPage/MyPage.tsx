@@ -22,7 +22,10 @@ const MyPage = () => {
       title: "공지사항",
       onPress: () => navigation.navigate("Notice"),
     },
-    { title: "고객센터", onPress: () => console.log("고객센터") },
+    {
+      title: "고객센터",
+      onPress: () => navigation.navigate("HelpCenter"),
+    },
   ];
 
   return (
