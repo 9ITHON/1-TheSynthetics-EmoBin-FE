@@ -4,23 +4,24 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 export default function LoginScreen() {
   return (
     <View style={styles.container}>
-      {/* 상단 공간 */}
+      {/* 상단 로고 */}
       <View style={styles.logoContainer}>
         <Text style={styles.subtitle}>넘어내는 공간</Text>
         <Text style={styles.logo}>logo</Text>
       </View>
 
-      {/* 하단 버튼 */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.kakaoButton} onPress={() => {}}>
-          {/* 아이콘 예시: 텍스트로 대체 */}
-          <Text style={styles.kakaoIcon}>💬</Text>
-          <Text style={styles.kakaoText}>카카오 로그인</Text>
-        </TouchableOpacity>
-      </View>
+      {/* 카카오 로그인 버튼 */}
+      <TouchableOpacity style={styles.kakaoButton} onPress={() => {}}>
+        <Image
+          source={require("../../assets/kakao.png")}
+          style={styles.kakaoIcon}
+          resizeMode="contain"
+        />
+        <Text style={styles.kakaoText}>카카오 로그인</Text>
+      </TouchableOpacity>
     </View>
   );
-} 
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -43,19 +44,19 @@ const styles = StyleSheet.create({
     color: "#ccc",
     fontWeight: "300",
   },
-  buttonContainer: {
-    width: "80%",
-  },
   kakaoButton: {
+    width: 300,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#FEE500",
     paddingVertical: 14,
+    paddingHorizontal: 20,
     borderRadius: 24,
   },
   kakaoIcon: {
-    fontSize: 16,
+    width: 18,
+    height: 18,
     marginRight: 8,
   },
   kakaoText: {
