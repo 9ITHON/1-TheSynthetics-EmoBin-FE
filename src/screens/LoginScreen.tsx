@@ -17,7 +17,7 @@ export default function LoginScreen() {
           style={styles.kakaoIcon}
           resizeMode="contain"
         />
-        <Text style={styles.kakaoText}>카카오 로그인</Text>
+        <Text style={styles.kakaoText}>카카오 로그인</Text> 
       </TouchableOpacity>
     </View>
   );
