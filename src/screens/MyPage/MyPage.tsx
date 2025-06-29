@@ -18,7 +18,10 @@ const MyPage = () => {
       description: "개인정보 수정이 가능합니다.",
       onPress: () => navigation.navigate("UserInfo"),
     },
-    { title: "공지사항", onPress: () => console.log("공지사항") },
+    {
+      title: "공지사항",
+      onPress: () => navigation.navigate("Notice"),
+    },
     { title: "고객센터", onPress: () => console.log("고객센터") },
   ];
 
