@@ -1,52 +1,36 @@
-import {
-  AuthRequest,
-  ResponseType,
-  makeRedirectUri,
-  exchangeCodeAsync,
-} from "expo-auth-session";
+// src/api/kakao_api.js
+import qs from "qs";
 
-const REST_API_KEY = "ce11a8c09ff42d519d2257d412297dc7";
+export const REST_KEY      = "ce11a8c09ff42d519d2257d412297dc7";
+export const REDIRECT_URI = "https://dummy.emobin.app/oauth"; 
 
-export async function kakaoLogin() {
-  // const redirectUri = makeRedirectUri({
-  //   useProxy: true,      // Proxy 사용
-  //   scheme:   undefined, // <- 스킴 비활성 (중요!)
-  // });
-  const redirectUri ="http://localhost:8081";
-  console.log("redirectUri:", redirectUri);
+export const AUTH_URL =
+  "https://kauth.kakao.com/oauth/authorize?" +
+  new URLSearchParams({
+    client_id: REST_KEY,
+    redirect_uri: REDIRECT_URI,
+    response_type: "code",
+    scope: "profile_nickname",     // ← 이메일 제외
+  }).toString();
 
-  const discovery = {
-    authorizationEndpoint: "https://kauth.kakao.com/oauth/authorize",
-    tokenEndpoint: "https://kauth.kakao.com/oauth/token",
-  };
-
-  const request = new AuthRequest({
-    clientId: REST_API_KEY,
-    redirectUri,
-    responseType: ResponseType.Code,
-    usePKCE: false,  
+export async function exchangeKakaoToken(code) {
+  const res = await fetch("https://kauth.kakao.com/oauth/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: qs.stringify({
+      grant_type: "authorization_code",
+      client_id:  REST_KEY,
+      redirect_uri: REDIRECT_URI,
+      code,
+    }),
   });
+  if (!res.ok) throw new Error("token exchange failed");
+  return res.json();      // { access_token, refresh_token, ... }
+}
 
-  await request.makeAuthUrlAsync(discovery);
-
-  const result = await request.promptAsync(discovery, { useProxy: true });
-  if (result.type !== "success" || !result.params.code) {
-    throw new Error("사용자 취소/실패");
-  }
-
-  const token = await exchangeCodeAsync(
-    {
-      clientId: REST_API_KEY,
-      redirectUri,
-      code: result.params.code,
-      grantType: "authorization_code",
-    },
-    discovery
-  );
-
-  const profile = await fetch("https://kapi.kakao.com/v2/user/me", {
-    headers: { Authorization: `Bearer ${token.accessToken}` },
-  }).then(r => r.json());
-
-  return { token, profile };
+export async function fetchKakaoProfile(accessToken) {
+  const res = await fetch("https://kapi.kakao.com/v2/user/me", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  return res.json();
 }
