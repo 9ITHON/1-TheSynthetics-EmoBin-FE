@@ -1,7 +1,22 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "./Landing.styles";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation";
+import { useEffect } from "react";
 
 const Landing = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("5초 후 WriteNote로 이동합니다");
+      navigation.navigate("WriteNote");
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [navigation]);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
