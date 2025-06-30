@@ -2,6 +2,7 @@
   "expo": {
     "name": "Emobin",
     "slug": "Emobin",
+    "scheme": "emobin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,10 +21,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.seongjunbang.Emobin"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee379de7-95f4-442d-9189-0caa5626132e"
+      }
     }
   }
 }
