@@ -1,0 +1,44 @@
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { styles } from "./EmotionResult.styles";
+
+const EmotionResult = () => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>ㅇㅇ의 감정 분석 결과</Text>
+
+      <View style={styles.characterContainer}>
+        <Image
+          source={require("../../../assets/images/character1.png")}
+          style={styles.characterImage}
+          resizeMode="contain"
+        />
+        <Image
+          source={require("../../../assets/images/shadow.png")}
+          style={styles.shadowImage}
+          resizeMode="contain"
+        />
+      </View>
+
+      <Text style={styles.emotion}>슬픔</Text>
+
+      <View style={styles.tagsContainer}>
+        <Text style={styles.tag}># 자존감</Text>
+        <Text style={styles.tag}># 인간관계</Text>
+        <Text style={styles.tag}># 인간관계</Text>
+      </View>
+
+      <View style={styles.analysisBox}>
+        <Text style={styles.analysisText}>
+          그런일이 있었구나{"\n"}이런 부분에서 너의 감정이{"\n"}많이 안 좋을 거
+          같네
+        </Text>
+      </View>
+
+      <TouchableOpacity>
+        <Text style={styles.recommendation}>맞춤 추천 리스트 보기</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default EmotionResult;

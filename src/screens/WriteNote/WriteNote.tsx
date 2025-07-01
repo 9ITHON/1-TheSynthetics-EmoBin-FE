@@ -1,9 +1,12 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./WriteNote.styles";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation";
 
 const WriteNote = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
     <View style={styles.container}>
@@ -25,7 +28,10 @@ const WriteNote = () => {
         />
       </View>
 
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => navigation.navigate("Processing")}
+      >
         <Text style={styles.submitButtonText}>작성완료</Text>
       </TouchableOpacity>
     </View>
