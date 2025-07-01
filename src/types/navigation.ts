@@ -5,3 +5,9 @@ export type RootStackParamList = {
   EmotionResult: undefined;
   History: undefined;
 };
+
+export type NavParamList = {
+  History: undefined;
+  Landing: undefined;
+  MyPage: undefined;
+};
