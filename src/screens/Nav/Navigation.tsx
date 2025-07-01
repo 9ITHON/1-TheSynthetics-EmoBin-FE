@@ -37,6 +37,7 @@ const Navigator = () => {
         component={Landing}
         options={{
           tabBarLabel: "홈",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <Image
               source={require("../../../assets/icons/home.png")}
@@ -50,6 +51,7 @@ const Navigator = () => {
         component={Landing}
         options={{
           tabBarLabel: "마이페이지",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <Image
               source={require("../../../assets/icons/my.png")}
