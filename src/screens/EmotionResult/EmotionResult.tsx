@@ -1,7 +1,13 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { styles } from "./EmotionResult.styles";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation";
 
 const EmotionResult = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>ㅇㅇ의 감정 분석 결과</Text>
@@ -34,7 +40,7 @@ const EmotionResult = () => {
         </Text>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("History")}>
         <Text style={styles.recommendation}>맞춤 추천 리스트 보기</Text>
       </TouchableOpacity>
     </View>

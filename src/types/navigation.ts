@@ -3,4 +3,5 @@ export type RootStackParamList = {
   WriteNote: undefined;
   Processing: undefined;
   EmotionResult: undefined;
+  History: undefined;
 };

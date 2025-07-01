@@ -4,6 +4,7 @@ import Landing from "./src/screens/Landing/Landing";
 import WriteNote from "./src/screens/WriteNote/WriteNote";
 import Processing from "./src/screens/Processing/Processing";
 import EmotionResult from "./src/screens/EmotionResult/EmotionResult";
+import History from "./src/screens/History/History";
 import { RootStackParamList } from "./src/types/navigation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,6 +31,11 @@ export default function App() {
         <Stack.Screen
           name="EmotionResult"
           component={EmotionResult}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="History"
+          component={History}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
