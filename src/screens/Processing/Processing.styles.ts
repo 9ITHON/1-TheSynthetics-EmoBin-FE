@@ -17,12 +17,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   characterImage: {
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
   },
   shadowImage: {
     width: 100,
     height: 20,
-    marginTop: -20,
+    marginTop: 10,
   },
 });

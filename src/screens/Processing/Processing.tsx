@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./Processing.styles";
 import { useEffect } from "react";
-import Character1 from "../../../assets/images/character1.svg";
+import Character2 from "../../../assets/images/character2.svg";
 import Shadow from "../../../assets/images/shadow.svg";
 
 const Processing = () => {
@@ -24,7 +24,7 @@ const Processing = () => {
       <Text style={styles.message}>감정 처리중</Text>
 
       <View style={styles.characterContainer}>
-        <Character1 style={styles.characterImage} />
+        <Character2 style={styles.characterImage} />
         <Shadow style={styles.shadowImage} />
       </View>
     </View>
