@@ -22,9 +22,18 @@ const EmotionResult = () => {
       <Text style={styles.emotion}>슬픔</Text>
 
       <View style={styles.tagsContainer}>
-        <Text style={styles.tag}># 자존감</Text>
-        <Text style={styles.tag}># 인간관계</Text>
-        <Text style={styles.tag}># 인간관계</Text>
+        <Text style={styles.tag}>
+          <Text style={styles.tagHash}>#</Text>
+          <Text style={styles.tagText}> 자존감</Text>
+        </Text>
+        <Text style={styles.tag}>
+          <Text style={styles.tagHash}>#</Text>
+          <Text style={styles.tagText}> 인간관계</Text>
+        </Text>
+        <Text style={styles.tag}>
+          <Text style={styles.tagHash}>#</Text>
+          <Text style={styles.tagText}> 인간관계</Text>
+        </Text>
       </View>
 
       <View style={styles.analysisBox}>

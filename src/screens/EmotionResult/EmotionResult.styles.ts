@@ -7,9 +7,10 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
+    marginTop: 60,
   },
   header: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: "bold",
     marginBottom: 24,
   },
@@ -37,26 +38,34 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 8,
     marginBottom: 16,
+    width: "80%",
+    marginLeft: "auto",
   },
   tag: {
     fontSize: 14,
-    color: "#F5B500",
     marginHorizontal: 4,
+  },
+  tagHash: {
+    color: "#F5B500",
+  },
+  tagText: {
+    color: "#000",
   },
   analysisBox: {
     backgroundColor: "#eee",
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
+    width: "70%",
   },
   analysisText: {
     fontSize: 14,
+    fontWeight: "bold",
     color: "#333",
     textAlign: "center",
   },
   recommendation: {
     fontSize: 14,
     color: "#999",
-    textDecorationLine: "underline",
   },
 });
