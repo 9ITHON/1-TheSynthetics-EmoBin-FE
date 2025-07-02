@@ -31,32 +31,35 @@ const MyPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>마이페이지</Text>
+      <View style={styles.contents}>
+        <ToggleSwitch
+          label="푸시알림설정"
+          description="푸시 알림을 ON, OFF 하실 수 있습니다."
+          value={isPushEnabled}
+          onValueChange={setIsPushEnabled}
+        />
 
-      <ToggleSwitch
-        label="푸시알림설정"
-        description="푸시 알림을 ON, OFF 하실 수 있습니다."
-        value={isPushEnabled}
-        onValueChange={setIsPushEnabled}
-      />
-
-      <FlatList
-        data={options}
-        keyExtractor={(item) => item.title}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={item.onPress}
-            style={styles.optionContainer}
-          >
-            <View>
-              <Text style={styles.optionTitle}>{item.title}</Text>
-              {item.description && (
-                <Text style={styles.optionDescription}>{item.description}</Text>
-              )}
-            </View>
-            <Text style={styles.arrow}>{">"}</Text>
-          </TouchableOpacity>
-        )}
-      />
+        <FlatList
+          data={options}
+          keyExtractor={(item) => item.title}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={item.onPress}
+              style={styles.optionContainer}
+            >
+              <View>
+                <Text style={styles.optionTitle}>{item.title}</Text>
+                {item.description && (
+                  <Text style={styles.optionDescription}>
+                    {item.description}
+                  </Text>
+                )}
+              </View>
+              <Text style={styles.arrow}>{">"}</Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </View>
   );
 };
