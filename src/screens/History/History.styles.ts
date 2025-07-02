@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFDF7",
-    paddingTop: 40,
+    paddingTop: 60,
   },
   header: {
     alignItems: "center",
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 3,
+    elevation: 2,
   },
 
   avatarSvg: {
@@ -71,22 +71,26 @@ export const styles = StyleSheet.create({
 
   temperatureInfo: {
     alignItems: "flex-start",
+    height: 100,
+    fontWeight: "bold",
   },
   temperatureLabel: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",
-    marginBottom: 12,
+    marginBottom: 20,
+    marginLeft: 10,
   },
   temperatureSvg: {
     width: 40,
     height: 40,
+    marginLeft: 10,
   },
   monthlySection: {
     marginHorizontal: 20,
   },
   monthlyTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     marginBottom: 12,
   },
