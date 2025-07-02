@@ -15,9 +15,8 @@ const Landing = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("5초 후 WriteNote로 이동합니다");
       navigation.navigate("WriteNote");
-    }, 5000);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, [navigation]);
