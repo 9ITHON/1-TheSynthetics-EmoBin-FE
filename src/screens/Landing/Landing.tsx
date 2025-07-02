@@ -25,10 +25,10 @@ const Landing = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity>
-          <NotificationIcon width={24} height={24} style={styles.icon} />
+          <MenuIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <MenuIcon width={24} height={24} style={styles.icon} />
+          <NotificationIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
       </View>
 

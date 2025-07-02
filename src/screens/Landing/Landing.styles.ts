@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFDF7",
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 60,
   },
   header: {
     flexDirection: "row",
@@ -17,11 +17,12 @@ export const styles = StyleSheet.create({
     height: 24,
   },
   greetingContainer: {
-    marginTop: 100,
+    marginTop: 160,
     alignItems: "center",
   },
   username: {
-    fontSize: 16,
+    fontSize: 18,
+    fontWeight: "bold",
     marginBottom: 8,
   },
   question: {
@@ -29,9 +30,9 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   characterContainer: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 70,
   },
   characterImage: {
     width: 200,
