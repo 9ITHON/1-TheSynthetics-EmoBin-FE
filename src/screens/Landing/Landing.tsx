@@ -4,6 +4,10 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { useEffect } from "react";
+import NotificationIcon from "../../../assets/icons/notification.svg";
+import MenuIcon from "../../../assets/icons/menu.svg";
+import Character1 from "../../../assets/images/character1.svg";
+import Shadow from "../../../assets/images/shadow.svg";
 
 const Landing = () => {
   const navigation =
@@ -21,16 +25,10 @@ const Landing = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity>
-          <Image
-            source={require("../../../assets/icons/notification.png")}
-            style={styles.icon}
-          />
+          <NotificationIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Image
-            source={require("../../../assets/icons/menu.png")}
-            style={styles.icon}
-          />
+          <MenuIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
       </View>
 
@@ -40,16 +38,8 @@ const Landing = () => {
       </View>
 
       <View style={styles.characterContainer}>
-        <Image
-          source={require("../../../assets/images/character1.png")}
-          style={styles.characterImage}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("../../../assets/images/shadow.png")}
-          style={styles.shadowImage}
-          resizeMode="contain"
-        />
+        <Character1 style={styles.characterImage} />
+        <Shadow style={styles.shadowImage} />
       </View>
     </View>
   );

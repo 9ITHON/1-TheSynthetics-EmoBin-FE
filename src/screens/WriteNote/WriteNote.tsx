@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { styles } from "./WriteNote.styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
+import NotificationIcon from "../../../assets/icons/notification.svg";
 
 const WriteNote = () => {
   const navigation =
@@ -13,10 +14,7 @@ const WriteNote = () => {
       <View style={styles.header}>
         <View style={{ flex: 1 }} />
         <TouchableOpacity>
-          <Image
-            source={require("../../../assets/icons/notification.png")}
-            style={styles.icon}
-          />
+          <NotificationIcon width={24} height={24} />
         </TouchableOpacity>
       </View>
 

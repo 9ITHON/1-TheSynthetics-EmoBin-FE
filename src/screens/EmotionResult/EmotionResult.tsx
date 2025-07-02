@@ -3,6 +3,8 @@ import { styles } from "./EmotionResult.styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
+import Character1 from "../../../assets/images/character1.svg";
+import Shadow from "../../../assets/images/shadow.svg";
 
 const EmotionResult = () => {
   const navigation =
@@ -13,16 +15,8 @@ const EmotionResult = () => {
       <Text style={styles.header}>ㅇㅇ의 감정 분석 결과</Text>
 
       <View style={styles.characterContainer}>
-        <Image
-          source={require("../../../assets/images/character1.png")}
-          style={styles.characterImage}
-          resizeMode="contain"
-        />
-        <Image
-          source={require("../../../assets/images/shadow.png")}
-          style={styles.shadowImage}
-          resizeMode="contain"
-        />
+        <Character1 style={styles.characterImage} />
+        <Shadow style={styles.shadowImage} />
       </View>
 
       <Text style={styles.emotion}>슬픔</Text>

@@ -43,19 +43,32 @@ export const styles = StyleSheet.create({
     zIndex: 10,
   },
   avatarPlaceholder: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 62,
+    height: 62,
+    borderRadius: 30,
     backgroundColor: "#FFF",
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 2,
     borderColor: "#F5D85C",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    elevation: 3,
   },
-  avatarImage: {
+
+  avatarSvg: {
     width: 40,
     height: 40,
   },
+  // username: {
+  //   fontSize: 18,
+  //   fontWeight: "600",
+  //   color: "#333",
+  //   marginBottom: 4,
+  // },
+
   temperatureInfo: {
     alignItems: "flex-start",
   },
@@ -65,8 +78,8 @@ export const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 12,
   },
-  temperatureImage: {
-    width: "100%",
+  temperatureSvg: {
+    width: 40,
     height: 40,
   },
   monthlySection: {

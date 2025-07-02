@@ -5,6 +5,9 @@ import Landing from "../Landing/Landing";
 import History from "../History/History";
 import { styles, tabStyles } from "./Navigation.styles";
 import { NavParamList } from "../../types/navigation";
+import HistoryIcon from "../../../assets/icons/history.svg";
+import MyPageIcon from "../../../assets/icons/my.svg";
+import HomeIcon from "../../../assets/icons/home.svg";
 
 const Tab = createBottomTabNavigator<NavParamList>();
 
@@ -25,9 +28,9 @@ const Navigator = () => {
         options={{
           tabBarLabel: "히스토리",
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("../../../assets/icons/history.png")}
-              style={[styles.icon, { tintColor: focused ? "#000" : "#BEBEBE" }]}
+            <HistoryIcon
+              fill={focused ? "#000" : "#BEBEBE"}
+              style={styles.icon}
             />
           ),
         }}
@@ -39,10 +42,7 @@ const Navigator = () => {
           tabBarLabel: "홈",
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("../../../assets/icons/home.png")}
-              style={[styles.icon, { tintColor: focused ? "#000" : "#BEBEBE" }]}
-            />
+            <HomeIcon fill={focused ? "#000" : "#BEBEBE"} style={styles.icon} />
           ),
         }}
       />
@@ -53,9 +53,9 @@ const Navigator = () => {
           tabBarLabel: "마이페이지",
           tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
-            <Image
-              source={require("../../../assets/icons/my.png")}
-              style={[styles.icon, { tintColor: focused ? "#000" : "#BEBEBE" }]}
+            <MyPageIcon
+              fill={focused ? "#000" : "#BEBEBE"}
+              style={styles.icon}
             />
           ),
         }}

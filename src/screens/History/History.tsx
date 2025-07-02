@@ -1,9 +1,12 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./History.styles";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import Temperature from "../../../assets/images/temperature.svg";
+import Avatar from "../../../assets/images/avatar.svg";
+import BackIcon from "../../../assets/icons/back.svg";
 
 LocaleConfig.locales["ko"] = {
   monthNames: [
@@ -59,7 +62,9 @@ const History = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.backArrow}>{"<"}</Text>
+          <Text style={styles.backArrow}>
+            <BackIcon />
+          </Text>
         </TouchableOpacity>
 
         <Text style={styles.title}>히스토리</Text>
@@ -69,21 +74,14 @@ const History = () => {
         <View style={styles.cardContent}>
           <View style={styles.avatarWrapper}>
             <View style={styles.avatarPlaceholder}>
-              <Image
-                source={require("../../../assets/images/avatar.png")}
-                style={styles.avatarImage}
-                resizeMode="contain"
-              />
+              <Avatar style={styles.avatarSvg} />
             </View>
           </View>
 
           <View style={styles.temperatureInfo}>
+            {/* <Text style={styles.username}>민주님</Text> */}
             <Text style={styles.temperatureLabel}>온도 36.5℃</Text>
-            <Image
-              source={require("../../../assets/images/temperature.png")}
-              style={styles.temperatureImage}
-              resizeMode="contain"
-            />
+            <Temperature style={styles.temperatureSvg} />
           </View>
         </View>
       </View>
@@ -101,7 +99,6 @@ const History = () => {
                 color: "#F5D85C",
                 textColor: "#000",
               },
-
               "2024-06-06": {
                 startingDay: true,
                 color: "#F5D85C",
