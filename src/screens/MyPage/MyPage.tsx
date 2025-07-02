@@ -6,6 +6,7 @@ import { styles } from "./MyPage.styles";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
+import ForwardIcon from "../../../assets/icons/forward.svg";
 
 const MyPage = () => {
   const [isPushEnabled, setIsPushEnabled] = useState(false);
@@ -55,7 +56,7 @@ const MyPage = () => {
                   </Text>
                 )}
               </View>
-              <Text style={styles.arrow}>{">"}</Text>
+              <ForwardIcon width={16} height={16} />
             </TouchableOpacity>
           )}
         />

@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./UserInfo.styles";
+import BackIcon from "../../../assets/icons/back.svg";
+import Pencil from "../../../assets/icons/pencil.svg";
 
 const UserInfo = () => {
   const navigation = useNavigation();
@@ -9,7 +11,7 @@ const UserInfo = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backArrow}>{"<"}</Text>
+          <BackIcon width={24} height={24} />
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>회원정보</Text>
@@ -21,7 +23,9 @@ const UserInfo = () => {
         <View style={styles.avatarPlaceholder} />
         <View style={styles.profileText}>
           <Text style={styles.username}>아이디</Text>
-          <Text style={styles.subtext}>아이디 수정 ✏️</Text>
+          <Text style={styles.subtext}>
+            아이디 수정 <Pencil width={15} />
+          </Text>
         </View>
       </View>
 
@@ -46,7 +50,9 @@ const UserInfo = () => {
       </View>
       <View style={styles.infoRow}>
         <Text style={styles.infoLabel}>성별</Text>
-        <Text style={styles.infoValue}>정보없음 ✏️</Text>
+        <Text style={styles.infoValue}>
+          정보없음 <Pencil width={15} />
+        </Text>
       </View>
 
       <View style={styles.divider} />

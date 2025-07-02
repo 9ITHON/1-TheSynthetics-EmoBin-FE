@@ -2,6 +2,7 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { styles } from "./HelpCenter.styles";
+import BackIcon from "../../../assets/icons/back.svg";
 
 const faqs = [
   {
@@ -36,8 +37,9 @@ const HelpCenter = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backArrow}>{"<"}</Text>
+          <BackIcon width={24} height={24} />
         </TouchableOpacity>
+
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>고객센터</Text>
         </View>

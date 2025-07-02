@@ -48,6 +48,13 @@ export const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 8,
   },
+  noticeContentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  importantIcon: {
+    marginRight: 8,
+  },
   noticeDate: {
     fontSize: 12,
     color: "#999",

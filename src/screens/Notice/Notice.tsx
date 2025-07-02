@@ -2,6 +2,8 @@ import { View, Text, FlatList, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { styles } from "./Notice.styles";
+import ImportantIcon from "../../../assets/icons/important.svg";
+import BackIcon from "../../../assets/icons/back.svg";
 
 const notices = [
   {
@@ -30,7 +32,9 @@ const Notice = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.backArrow}>{"<"}</Text>
+          <Text style={styles.backArrow}>
+            <BackIcon />
+          </Text>
         </TouchableOpacity>
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>공지사항</Text>
@@ -43,7 +47,16 @@ const Notice = () => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.noticeCard}>
-            <Text style={styles.noticeContent}>{item.content}</Text>
+            <View style={styles.noticeContentRow}>
+              {item.id === "1" && (
+                <ImportantIcon
+                  width={20}
+                  height={20}
+                  style={styles.importantIcon}
+                />
+              )}
+              <Text style={styles.noticeContent}>{item.content}</Text>
+            </View>
             <Text style={styles.noticeDate}>{item.date}</Text>
           </View>
         )}
