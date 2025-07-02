@@ -46,6 +46,16 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  usernameInput: {
+    fontSize: 16,
+    fontWeight: "bold",
+    borderBottomWidth: 1,
+    borderColor: "#ccc",
+    paddingVertical: 2,
+  },
+  editButton: {
+    marginTop: 4,
+  },
   subtext: {
     fontSize: 12,
     color: "#666",
