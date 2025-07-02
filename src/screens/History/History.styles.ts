@@ -26,13 +26,14 @@ export const styles = StyleSheet.create({
   },
   temperatureCard: {
     marginHorizontal: 20,
-    marginBottom: 32,
+    marginBottom: 36,
   },
   cardContent: {
     backgroundColor: "#F5D85C",
     borderRadius: 20,
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 50,
+    paddingBottom: 50,
     position: "relative",
     marginTop: 20,
   },
@@ -62,12 +63,13 @@ export const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-  // username: {
-  //   fontSize: 18,
-  //   fontWeight: "600",
-  //   color: "#333",
-  //   marginBottom: 4,
-  // },
+  username: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 4,
+    marginLeft: 10,
+  },
 
   temperatureInfo: {
     alignItems: "flex-start",
@@ -75,7 +77,7 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   temperatureLabel: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 20,

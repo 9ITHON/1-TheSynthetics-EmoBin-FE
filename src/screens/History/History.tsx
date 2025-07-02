@@ -4,9 +4,9 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./History.styles";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import Temperature from "../../../assets/images/temperature.svg";
 import Avatar from "../../../assets/images/avatar.svg";
 import BackIcon from "../../../assets/icons/back.svg";
+import Thermometer from "../../components/Thermometer";
 
 LocaleConfig.locales["ko"] = {
   monthNames: [
@@ -55,6 +55,8 @@ const History = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const temperatureValue = 55.5;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -66,7 +68,6 @@ const History = () => {
             <BackIcon />
           </Text>
         </TouchableOpacity>
-
         <Text style={styles.title}>히스토리</Text>
       </View>
 
@@ -79,9 +80,11 @@ const History = () => {
           </View>
 
           <View style={styles.temperatureInfo}>
-            {/* <Text style={styles.username}>민주님</Text> */}
-            <Text style={styles.temperatureLabel}>온도 36.5℃</Text>
-            <Temperature style={styles.temperatureSvg} />
+            <Text style={styles.username}>민주님</Text>
+            <Text style={styles.temperatureLabel}>
+              온도 {temperatureValue}℃
+            </Text>
+            <Thermometer temperature={temperatureValue} />
           </View>
         </View>
       </View>
