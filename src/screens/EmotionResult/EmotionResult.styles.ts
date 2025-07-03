@@ -37,9 +37,9 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    marginBottom: 16,
     width: "80%",
     marginLeft: "auto",
+    marginBottom: 16,
   },
   tag: {
     fontSize: 14,
@@ -52,11 +52,11 @@ export const styles = StyleSheet.create({
     color: "#000",
   },
   analysisBox: {
+    width: "70%",
     backgroundColor: "#eee",
     borderRadius: 8,
     padding: 16,
     marginBottom: 24,
-    width: "70%",
   },
   analysisText: {
     fontSize: 14,
