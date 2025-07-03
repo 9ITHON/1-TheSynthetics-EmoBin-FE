@@ -12,6 +12,7 @@ import { format } from "date-fns";
 import { styles } from "./UserInfo.styles";
 import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
+import ForwardIcon from "../../../assets/icons/forward.svg";
 
 const UserInfo = () => {
   const navigation = useNavigation();
@@ -85,11 +86,11 @@ const UserInfo = () => {
 
         <View style={styles.menuItem}>
           <Text style={styles.menuTitle}>개인정보 이용 약관</Text>
-          <Text style={styles.arrow}>{">"}</Text>
+          <ForwardIcon width={16} height={16} />
         </View>
         <View style={styles.menuItem}>
           <Text style={styles.menuTitle}>마케팅 수신 동의</Text>
-          <Text style={styles.arrow}>{">"}</Text>
+          <ForwardIcon width={16} height={16} />
         </View>
 
         <View style={styles.infoRow}>
