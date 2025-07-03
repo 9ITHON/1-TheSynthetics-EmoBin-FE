@@ -12,6 +12,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 type RootStack = {
   Login: undefined;
   KakaoLoginWebview: undefined;
+  LoginSuccess: undefined;
 };
 
 export default function LoginScreen({
@@ -27,9 +28,14 @@ export default function LoginScreen({
       Alert.alert(
         "로그인 성공",
         `환영합니다, ${
-          profile.kakao_account?.profile?.nickname || "사용자"
+          profile.profile?.nickname || "사용자"
         }님!`
       );
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginSuccess" }],
+      });
+      navigation.replace("LoginSuccess");
     }
   }, [profile]);
 

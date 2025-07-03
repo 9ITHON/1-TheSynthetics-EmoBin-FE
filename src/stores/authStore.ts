@@ -1,19 +1,30 @@
 // src/stores/authStore.ts
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+// zustand + persist 로 간단한 인증 상태 관리
 
-interface Profile {
-  id: number;
-  kakao_account: {
-    profile: { nickname: string };
-    // 필요하면 email 등 추가
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+// ────────────────────────────────────────────────────────────────
+// KakaoProfile 타입 (API helper 와 동일한 구조)
+// ────────────────────────────────────────────────────────────────
+
+export interface KakaoProfile {
+  id: string; // Kakao user id (문자열)
+  profile: {
+    nickname: string;
+    profile_image_url?: string;
+    thumbnail_image_url?: string;
   };
-  // ...
+  email?: string;
 }
 
+// ────────────────────────────────────────────────────────────────
+// Zustand 상태 정의
+// ────────────────────────────────────────────────────────────────
+
 interface AuthState {
-  profile: Profile | null;
-  setProfile: (p: Profile) => void;
+  profile: KakaoProfile | null;
+  setProfile: (p: KakaoProfile) => void;
   logout: () => void;
 }
 
@@ -25,8 +36,8 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ profile: null }),
     }),
     {
-      name: 'auth',           // AsyncStorage key
-      // storage: createJSONStorage(() => SecureStore)  ← Expo SecureStore 쓰고 싶으면
+      name: "auth", // AsyncStorage key
+      // storage: createJSONStorage(() => SecureStore) ← Expo SecureStore 사용 시
     }
   )
 );

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "./src/screens/LoginScreen";
 import KakaoLoginWebview from "./src/screens/KakaoLoginWebview";
+import LoginSuccessScreen from "./src/screens/LoginSuccess";
 
 /** ─────────────────────────────
  *  네비게이터 파라미터 타입
@@ -13,6 +14,7 @@ import KakaoLoginWebview from "./src/screens/KakaoLoginWebview";
 type RootStackParamList = {
   Login: undefined;
   KakaoLoginWebview: undefined;
+  LoginSuccess: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -30,6 +32,10 @@ export default function App() {
           name="KakaoLoginWebview"
           component={KakaoLoginWebview}
           options={{ title: "카카오 로그인" }}
+        />
+        <Stack.Screen
+          name="LoginSuccess"
+          component={LoginSuccessScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
