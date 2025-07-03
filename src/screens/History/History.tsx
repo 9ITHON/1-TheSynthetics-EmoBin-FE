@@ -64,9 +64,7 @@ const History = () => {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Text style={styles.backArrow}>
-            <BackIcon />
-          </Text>
+          <BackIcon />
         </TouchableOpacity>
         <Text style={styles.title}>히스토리</Text>
       </View>

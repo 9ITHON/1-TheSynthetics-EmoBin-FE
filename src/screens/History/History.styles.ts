@@ -6,12 +6,13 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FFFDF7",
     paddingTop: 60,
   },
+
   header: {
-    alignItems: "center",
-    justifyContent: "center",
     position: "relative",
     height: 40,
     marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   backButton: {
     position: "absolute",
@@ -24,6 +25,7 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+
   temperatureCard: {
     marginHorizontal: 20,
     marginBottom: 36,
@@ -34,8 +36,8 @@ export const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 50,
     paddingBottom: 50,
-    position: "relative",
     marginTop: 20,
+    position: "relative",
   },
   avatarWrapper: {
     position: "absolute",
@@ -46,10 +48,10 @@ export const styles = StyleSheet.create({
   avatarPlaceholder: {
     width: 62,
     height: 62,
-    borderRadius: 30,
+    borderRadius: 31,
     backgroundColor: "#FFF",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     borderWidth: 2,
     borderColor: "#F5D85C",
     shadowColor: "#000",
@@ -58,10 +60,13 @@ export const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 2,
   },
-
   avatarSvg: {
     width: 40,
     height: 40,
+  },
+  temperatureInfo: {
+    alignItems: "flex-start",
+    height: 100,
   },
   username: {
     fontSize: 18,
@@ -69,12 +74,6 @@ export const styles = StyleSheet.create({
     color: "#333",
     marginBottom: 4,
     marginLeft: 10,
-  },
-
-  temperatureInfo: {
-    alignItems: "flex-start",
-    height: 100,
-    fontWeight: "bold",
   },
   temperatureLabel: {
     fontSize: 18,
@@ -88,6 +87,7 @@ export const styles = StyleSheet.create({
     height: 40,
     marginLeft: 10,
   },
+
   monthlySection: {
     marginHorizontal: 20,
   },
@@ -98,8 +98,8 @@ export const styles = StyleSheet.create({
   },
   calendar: {
     width: "100%",
+    padding: 10,
     borderRadius: 12,
     backgroundColor: "#FFF",
-    padding: 10,
   },
 });
