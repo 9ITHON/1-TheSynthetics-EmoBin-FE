@@ -8,14 +8,16 @@ import {
   Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Calendar } from "react-native-calendars";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Calendar, LocaleConfig } from "react-native-calendars";
+
 import { styles } from "./UserInfo.styles";
 import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
 import ForwardIcon from "../../../assets/icons/forward.svg";
-import { LocaleConfig } from "react-native-calendars";
+import { RootStackParamList } from "../../types/navigation";
 
-LocaleConfig.locales["ko"] = {
+LocaleConfig.locales.ko = {
   monthNames: [
     "1월",
     "2월",
@@ -59,7 +61,8 @@ LocaleConfig.locales["ko"] = {
 LocaleConfig.defaultLocale = "ko";
 
 const UserInfo = () => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [username, setUsername] = useState("민주콩");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -67,14 +70,6 @@ const UserInfo = () => {
   const [gender, setGender] = useState("선택안함");
   const [isGenderDropdownVisible, setGenderDropdownVisible] = useState(false);
   const [isCalendarVisible, setCalendarVisible] = useState(false);
-
-  const showCalendar = () => setCalendarVisible(true);
-  const hideCalendar = () => setCalendarVisible(false);
-
-  const selectGender = (value: string) => {
-    setGender(value);
-    setGenderDropdownVisible(false);
-  };
 
   const handleSelectDate = (day: { dateString: string }) => {
     const formatted = day.dateString.replace(/-/g, ".");
@@ -138,7 +133,7 @@ const UserInfo = () => {
 
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>생년월일</Text>
-          <TouchableOpacity onPress={showCalendar}>
+          <TouchableOpacity onPress={() => setCalendarVisible(true)}>
             <Text style={styles.infoValue}>{birthDate}</Text>
           </TouchableOpacity>
         </View>
@@ -157,12 +152,13 @@ const UserInfo = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
           {isGenderDropdownVisible && (
             <View style={styles.genderDropdown}>
-              <TouchableOpacity onPress={() => selectGender("남자")}>
+              <TouchableOpacity onPress={() => setGender("남자")}>
                 <Text style={styles.dropdownItem}>남자</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => selectGender("여자")}>
+              <TouchableOpacity onPress={() => setGender("여자")}>
                 <Text style={styles.dropdownItem}>여자</Text>
               </TouchableOpacity>
             </View>
@@ -187,8 +183,8 @@ const UserInfo = () => {
                     selectedColor: "#F5D85C",
                   },
                 }}
-                hideExtraDays={true}
-                monthFormat={"yyyy년 M월"}
+                hideExtraDays
+                monthFormat="yyyy년 M월"
                 onMonthChange={() => {}}
                 renderArrow={(direction) =>
                   direction === "left" ? (
@@ -208,7 +204,7 @@ const UserInfo = () => {
                 }}
               />
               <TouchableOpacity
-                onPress={hideCalendar}
+                onPress={() => setCalendarVisible(false)}
                 style={styles.modalCloseButton}
               >
                 <Text style={styles.modalCloseText}>닫기</Text>
