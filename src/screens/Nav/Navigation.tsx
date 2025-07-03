@@ -7,7 +7,7 @@ import { styles, tabStyles } from "./Navigation.styles";
 import { NavParamList } from "../../types/navigation";
 import HistoryIcon from "../../../assets/icons/history.svg";
 import MyPageIcon from "../../../assets/icons/my.svg";
-import HomeIcon from "../../../assets/icons/home.svg";
+import HomeIcon from "../../../assets/icons/emobin.svg";
 
 const Tab = createBottomTabNavigator<NavParamList>();
 
