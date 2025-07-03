@@ -104,7 +104,7 @@ const UserInfo = () => {
             <Text style={styles.infoLabel}>성별</Text>
             <TouchableOpacity
               onPress={(e) => {
-                e.stopPropagation(); // 바깥 터치 이벤트 방지
+                e.stopPropagation();
                 setGenderDropdownVisible(!isGenderDropdownVisible);
               }}
             >
