@@ -5,14 +5,58 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput,
+  Modal,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { format } from "date-fns";
+import { Calendar } from "react-native-calendars";
 import { styles } from "./UserInfo.styles";
 import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
 import ForwardIcon from "../../../assets/icons/forward.svg";
+import { LocaleConfig } from "react-native-calendars";
+
+LocaleConfig.locales["ko"] = {
+  monthNames: [
+    "1월",
+    "2월",
+    "3월",
+    "4월",
+    "5월",
+    "6월",
+    "7월",
+    "8월",
+    "9월",
+    "10월",
+    "11월",
+    "12월",
+  ],
+  monthNamesShort: [
+    "1월",
+    "2월",
+    "3월",
+    "4월",
+    "5월",
+    "6월",
+    "7월",
+    "8월",
+    "9월",
+    "10월",
+    "11월",
+    "12월",
+  ],
+  dayNames: [
+    "일요일",
+    "월요일",
+    "화요일",
+    "수요일",
+    "목요일",
+    "금요일",
+    "토요일",
+  ],
+  dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+  today: "오늘",
+};
+LocaleConfig.defaultLocale = "ko";
 
 const UserInfo = () => {
   const navigation = useNavigation();
@@ -20,23 +64,22 @@ const UserInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [birthDate, setBirthDate] = useState("1993.10.25");
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
   const [gender, setGender] = useState("선택안함");
   const [isGenderDropdownVisible, setGenderDropdownVisible] = useState(false);
+  const [isCalendarVisible, setCalendarVisible] = useState(false);
 
-  const showDatePicker = () => setDatePickerVisibility(true);
-  const hideDatePicker = () => setDatePickerVisibility(false);
-
-  const handleConfirm = (date: Date) => {
-    const formatted = format(date, "yyyy.MM.dd");
-    setBirthDate(formatted);
-    hideDatePicker();
-  };
+  const showCalendar = () => setCalendarVisible(true);
+  const hideCalendar = () => setCalendarVisible(false);
 
   const selectGender = (value: string) => {
     setGender(value);
     setGenderDropdownVisible(false);
+  };
+
+  const handleSelectDate = (day: { dateString: string }) => {
+    const formatted = day.dateString.replace(/-/g, ".");
+    setBirthDate(formatted);
+    setCalendarVisible(false);
   };
 
   return (
@@ -95,7 +138,7 @@ const UserInfo = () => {
 
         <View style={styles.infoRow}>
           <Text style={styles.infoLabel}>생년월일</Text>
-          <TouchableOpacity onPress={showDatePicker}>
+          <TouchableOpacity onPress={showCalendar}>
             <Text style={styles.infoValue}>{birthDate}</Text>
           </TouchableOpacity>
         </View>
@@ -131,12 +174,48 @@ const UserInfo = () => {
           <Text style={styles.logoutText}>로그아웃 | 회원탈퇴</Text>
         </View>
 
-        <DateTimePickerModal
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
+        <Modal visible={isCalendarVisible} transparent animationType="slide">
+          <View style={styles.modalOverlay}>
+            <View style={styles.calendarContainer}>
+              <Calendar
+                style={styles.calendar}
+                onDayPress={handleSelectDate}
+                current={birthDate.replace(/\./g, "-")}
+                markedDates={{
+                  [birthDate.replace(/\./g, "-")]: {
+                    selected: true,
+                    selectedColor: "#F5D85C",
+                  },
+                }}
+                hideExtraDays={true}
+                monthFormat={"yyyy년 M월"}
+                onMonthChange={() => {}}
+                renderArrow={(direction) =>
+                  direction === "left" ? (
+                    <BackIcon style={{ width: 20, height: 20 }} />
+                  ) : (
+                    <ForwardIcon style={{ width: 20, height: 20 }} />
+                  )
+                }
+                theme={{
+                  todayTextColor: "black",
+                  textDayFontSize: 20,
+                  textDayFontWeight: "bold",
+                  textMonthFontSize: 20,
+                  textMonthFontWeight: "bold",
+                  textSectionTitleColor: "rgba(138, 138, 138, 1)",
+                  arrowColor: "#333",
+                }}
+              />
+              <TouchableOpacity
+                onPress={hideCalendar}
+                style={styles.modalCloseButton}
+              >
+                <Text style={styles.modalCloseText}>닫기</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </TouchableWithoutFeedback>
   );

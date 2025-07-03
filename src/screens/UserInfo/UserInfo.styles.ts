@@ -120,4 +120,30 @@ export const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  calendarContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 16,
+    width: "90%",
+  },
+  modalCloseButton: {
+    marginTop: 10,
+    alignSelf: "flex-end",
+  },
+  modalCloseText: {
+    fontSize: 16,
+    color: "#007AFF",
+  },
+  calendar: {
+    paddingBottom: 20,
+    borderWidth: 1,
+    borderColor: "#E9E9E9",
+    borderRadius: 20,
+  },
 });
