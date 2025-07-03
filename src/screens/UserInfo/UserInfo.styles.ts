@@ -17,10 +17,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  backArrow: {
-    fontSize: 20,
-    paddingHorizontal: 8,
-  },
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -76,6 +72,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 12,
+    position: "relative",
   },
   infoLabel: {
     fontSize: 14,
@@ -97,9 +94,30 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#ccc",
     marginVertical: 5,
+    zIndex: -1,
   },
   arrow: {
     fontSize: 18,
     color: "#666",
+  },
+  genderDropdown: {
+    position: "absolute",
+    top: 40,
+    right: 0,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    overflow: "hidden",
+    width: 120,
+    zIndex: 10,
+    elevation: 10,
+  },
+  dropdownItem: {
+    padding: 10,
+    fontSize: 14,
+    color: "#333",
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
 });
