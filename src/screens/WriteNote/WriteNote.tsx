@@ -1,13 +1,16 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { styles } from "./WriteNote.styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import NotificationIcon from "../../../assets/icons/notification.svg";
+import Note from "../../../assets/images/note.svg";
+import { styles } from "./WriteNote.styles";
 
 const WriteNote = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [noteText, setNoteText] = useState("");
 
   return (
     <View style={styles.container}>
@@ -19,11 +22,17 @@ const WriteNote = () => {
       </View>
 
       <View style={styles.noteContainer}>
-        <Image
-          source={require("../../../assets/images/note.png")}
-          style={styles.noteImage}
-          resizeMode="contain"
-        />
+        <Note style={styles.noteImage} />
+        <TouchableOpacity style={styles.textInputWrapper} activeOpacity={1}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="여기에 입력하세요..."
+            placeholderTextColor="#aaa"
+            multiline
+            value={noteText}
+            onChangeText={setNoteText}
+          />
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity

@@ -20,11 +20,29 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    position: "relative",
   },
   noteImage: {
-    width: "100%",
+    width: "160%",
     aspectRatio: 0.7,
   },
+
+  textInputWrapper: {
+    position: "absolute",
+    top: 185,
+    left: 55,
+    right: 55,
+    bottom: 160,
+    justifyContent: "flex-start",
+  },
+  textInput: {
+    flex: 1,
+    fontSize: 16,
+    color: "#000",
+    lineHeight: 25,
+    textAlignVertical: "top",
+  },
+
   submitButton: {
     backgroundColor: "#333",
     borderRadius: 8,
