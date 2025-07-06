@@ -1,7 +1,7 @@
 ---
-name: "[\U0001F41EBUG]"
+name: "\U0001F41EBUG request"
 about: 버그 및 오류 제보
-title: "\U0001F41EBUG"
+title: "[\U0001F41EBUG]"
 labels: ''
 assignees: ''
 
