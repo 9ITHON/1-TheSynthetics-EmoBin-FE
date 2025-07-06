@@ -31,7 +31,12 @@ const WriteNote = () => {
             multiline
             value={noteText}
             onChangeText={setNoteText}
+            textAlignVertical="top"
+            maxLength={462}
           />
+          <View style={styles.counterContainer}>
+            <Text style={styles.counterText}>{noteText.length} / 462</Text>
+          </View>
         </TouchableOpacity>
       </View>
 

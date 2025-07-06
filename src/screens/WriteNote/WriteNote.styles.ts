@@ -29,17 +29,17 @@ export const styles = StyleSheet.create({
 
   textInputWrapper: {
     position: "absolute",
-    top: 185,
-    left: 55,
-    right: 55,
-    bottom: 160,
+    top: 175,
+    left: 50,
+    right: 50,
+    bottom: 150,
     justifyContent: "flex-start",
   },
   textInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 12,
     color: "#000",
-    lineHeight: 25,
+    lineHeight: 26,
     textAlignVertical: "top",
   },
 
@@ -57,5 +57,12 @@ export const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  counterContainer: {
+    alignItems: "flex-end",
+  },
+  counterText: {
+    fontSize: 12,
+    color: "#999",
   },
 });
