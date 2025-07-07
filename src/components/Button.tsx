@@ -1,44 +1,17 @@
 import React from "react";
-import { TouchableOpacity, Text, StyleSheet, Image, GestureResponderEvent } from "react-native";
+import { TouchableOpacity, Text, Image } from "react-native";
+import { ButtonProps } from "../types/button";
+import { styles } from "./Button.style";
 
-interface ButtonProps {
-  text: string;
-  onPress: (event: GestureResponderEvent) => void;
-  iconSource: any; // require() 이미지 경로
-}
+const Button: React.FC<ButtonProps> = ({ text, onPress, iconSource }) => (
+  <TouchableOpacity style={styles.kakaoButton} onPress={onPress}>
+    <Image
+      source={iconSource}
+      style={styles.kakaoIcon}
+      resizeMode="contain"
+    />
+    <Text style={styles.kakaoText}>{text}</Text>
+  </TouchableOpacity>
+);
 
-export default function Button({ text, onPress, iconSource }: ButtonProps) {
-  return (
-    <TouchableOpacity style={styles.kakaoButton} onPress={onPress}>
-      <Image
-        source={iconSource}
-        style={styles.kakaoIcon}
-        resizeMode="contain"
-      />
-      <Text style={styles.kakaoText}>{text}</Text>
-    </TouchableOpacity>
-  );
-}
-
-const styles = StyleSheet.create({
-  kakaoButton: {
-    width: 310,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FEE500",
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 24,
-  },
-  kakaoIcon: {
-    width: 18,
-    height: 18,
-    marginRight: 8,
-  },
-  kakaoText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#000",
-  },
-});
+export default Button;
