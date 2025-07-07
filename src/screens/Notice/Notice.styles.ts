@@ -13,48 +13,59 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 16,
   },
+  backArrow: {
+    marginHorizontal: 8,
+  },
   headerCenter: {
     flex: 1,
     alignItems: "center",
   },
-  backArrow: {
-    fontSize: 20,
-    paddingHorizontal: 8,
-  },
   headerTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
   },
+
   noticeCard: {
     backgroundColor: "#fff",
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
+    elevation: 2,
   },
-  noticeHeader: {
-    marginBottom: 8,
-  },
-  noticeTitle: {
-    fontSize: 16,
+
+  firstTitle: {
+    fontSize: 20,
     fontWeight: "bold",
-  },
-  noticeSubtitle: {
-    fontSize: 12,
-    color: "#e74c3c",
-  },
-  noticeContent: {
-    fontSize: 14,
     color: "#333",
     marginBottom: 8,
   },
+
   noticeContentRow: {
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
+    marginBottom: 8,
   },
   importantIcon: {
     marginRight: 8,
+    marginTop: 2,
   },
+
+  boldText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#333",
+    lineHeight: 20,
+    flex: 1,
+  },
+  normalText: {
+    fontSize: 14,
+    fontWeight: "normal",
+    color: "#333",
+    lineHeight: 20,
+    flexShrink: 1,
+  },
+
   noticeDate: {
     fontSize: 12,
     color: "#999",
