@@ -43,7 +43,7 @@ export default function LoginScreen({
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image
-          source={require("../../assets/logo.png")}
+          source={require("../../../assets/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -51,7 +51,7 @@ export default function LoginScreen({
 
       <Button
         text="카카오 로그인"
-        iconSource={require("../../assets/kakao.png")}
+        iconSource={require("../../../assets/kakao.png")}
         onPress={handleKakaoLogin}
       />
     </View>

@@ -19,7 +19,7 @@ import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./LoginSuccess.style";
 
 // 로고 이미지 (프로젝트 구조에 맞게 경로 조정)
-const logo = require("../../assets/logo.png");
+const logo = require("../../../assets/logo.png");
 
 type Props = NativeStackScreenProps<RootStackParamList, "LoginSuccess">;
 
