@@ -1,5 +1,12 @@
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { RootStackParamList } from "./src/types/navigation";
+
+import LoginScreen from "./src/screens/Login/LoginScreen";
+import KakaoLoginWebview from "./src/screens/Login/KakaoLoginWebview";
+import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";
+
 
 
 import Landing from "./src/screens/Landing/Landing";
@@ -12,7 +19,6 @@ import MyPage from "./src/screens/MyPage/MyPage";
 import UserInfo from "./src/screens/UserInfo/UserInfo";
 import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
-import { RootStackParamList } from "./src/types/navigation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,6 +26,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function App() {
   return (
     <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="KakaoLoginWebview"
+          component={KakaoLoginWebview}
+          options={{ title: "카카오 로그인" }}
+        />
+        <Stack.Screen
+          name="LoginSuccess"
+          component={LoginSuccessScreen}
+        />
        {/* 
       <Stack.Navigator initialRouteName="MyPage">
         <Stack.Screen
