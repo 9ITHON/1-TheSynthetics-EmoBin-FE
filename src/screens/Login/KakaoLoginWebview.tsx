@@ -9,9 +9,9 @@ import {
   fetchKakaoProfile,
   REDIRECT_URI,
   AUTH_URL,
-} from "../api/kakao_api";
+} from "../../api/KakaoLogin/kakao_api";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useAuthStore, KakaoProfile } from "../stores/authStore";
+import { useAuthStore, KakaoProfile } from "../../stores/authStore";
 
 // ────────────────────────────────────────────────────────────────
 // Stack Param 정의 (React‑Navigation v6 기준)

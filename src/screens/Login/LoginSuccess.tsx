@@ -10,24 +10,16 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   BackHandler,
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation";
+import { styles } from "./LoginSuccess.style";
 
 // 로고 이미지 (프로젝트 구조에 맞게 경로 조정)
 const logo = require("../../assets/logo.png");
-
-// ────────────────────────────────────────────────────────────────
-// Stack Param 타입
-// ────────────────────────────────────────────────────────────────
-
-type RootStackParamList = {
-  LoginSuccess: undefined;
-  // … 다른 스크린들
-};
 
 type Props = NativeStackScreenProps<RootStackParamList, "LoginSuccess">;
 
@@ -53,35 +45,3 @@ export default function LoginSuccessScreen({}: Props) {
     </SafeAreaView>
   );
 }
-
-// ────────────────────────────────────────────────────────────────
-// Styles
-// ────────────────────────────────────────────────────────────────
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFBF1",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 24,
-  },
-  centerBox: {
-    alignItems: "center",
-    justifyContent: "center",
-    flexGrow: 1,
-  },
-  logo: {
-    width: 214,
-    height: 214,
-    marginBottom: 12,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: "#F5D01F",
-  },
-  footer: {
-    fontSize: 20,
-    color: "#D9D9D9",
-  },
-});
