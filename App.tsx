@@ -18,7 +18,7 @@ import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
 import FirstLogin from "./src/screens/FirstLogin/firstLogin";
 
-// const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
