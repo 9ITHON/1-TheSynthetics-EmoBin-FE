@@ -7,8 +7,6 @@ import LoginScreen from "./src/screens/Login/LoginScreen";
 import KakaoLoginWebview from "./src/screens/Login/KakaoLoginWebview";
 import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";
 
-
-
 import Landing from "./src/screens/Landing/Landing";
 import WriteNote from "./src/screens/WriteNote/WriteNote";
 import Processing from "./src/screens/Processing/Processing";
@@ -21,7 +19,6 @@ import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
 
 export default function App() {
   return (
@@ -41,30 +38,6 @@ export default function App() {
           name="LoginSuccess"
           component={LoginSuccessScreen}
         /> */}
-       {/* 
-      <Stack.Navigator initialRouteName="MyPage">
-        <Stack.Screen
-          name="MyPage"
-          component={MyPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="UserInfo"
-          component={UserInfo}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Notice"
-          component={Notice}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HelpCenter"
-          component={HelpCenter}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-      */}
 
       <Stack.Navigator initialRouteName="Landing">
         <Stack.Screen
@@ -90,6 +63,26 @@ export default function App() {
         <Stack.Screen
           name="History"
           component={Navigation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyPage"
+          component={Navigation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UserInfo"
+          component={UserInfo}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Notice"
+          component={Notice}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HelpCenter"
+          component={HelpCenter}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

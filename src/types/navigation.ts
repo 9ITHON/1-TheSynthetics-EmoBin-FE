@@ -2,12 +2,10 @@ export type RootStackParamList = {
   Login: undefined;
   KakaoLoginWebview: undefined;
   LoginSuccess: undefined;
-  /*
   MyPage: undefined;
   UserInfo: undefined;
   Notice: undefined;
   HelpCenter: undefined;
-  */
   Landing: undefined;
   WriteNote: undefined;
   Processing: undefined;
