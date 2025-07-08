@@ -1,23 +1,7 @@
 import { create } from 'zustand';
+import { SignupState } from '../types/signup';
 
-type Gender = 'FEMALE' | 'MALE' | null;
-
-interface SignupState {
-  nickname: string;
-  gender: Gender;
-  year: number | '';
-  month: number | '';
-  day: number | '';
-  // actions
-  setNickname: (v: string) => void;
-  setGender: (v: Gender) => void;
-  setYear:    (v: number | '') => void;
-  setMonth:   (v: number | '') => void;
-  setDay:     (v: number | '') => void;
-  reset: () => void;
-}
-
-export const useSignupStore = create<SignupState>((set) => ({
+const useSignupStore = create<SignupState>((set) => ({
   nickname: '',
   gender: null,
   year: '',
@@ -31,3 +15,5 @@ export const useSignupStore = create<SignupState>((set) => ({
   reset: () =>
     set({ nickname: '', gender: null, year: '', month: '', day: '' }),
 }));
+
+export { useSignupStore }; 
