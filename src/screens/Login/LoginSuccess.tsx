@@ -1,25 +1,31 @@
+// src/screens/Login/LoginSuccessScreen.tsx
 import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  Image,
-  BackHandler,
-  Platform,
-} from "react-native";
+import { View, Text, Image, BackHandler, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import type { RootStackParamList } from "../../types/navigation";
 import { styles } from "./LoginSuccess.style";
-import { PropsSuccess } from "../../types/login"
+import { LoginSuccessNavProp } from "../../types/navigation";
 
 const logo = require("../../../assets/logo.png");
 
+const LoginSuccessScreen: React.FC = () => {
+  const navigation = useNavigation<LoginSuccessNavProp>();
 
-const LoginSuccessScreen: React.FC<PropsSuccess> = () => {
   useEffect(() => {
     if (Platform.OS === "android") {
-      const subscription = BackHandler.addEventListener("hardwareBackPress", () => true); // 뒤로가기 막기
-      return () => subscription.remove();
+      const sub = BackHandler.addEventListener("hardwareBackPress", () => true);
+      return () => sub.remove();
     }
   }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.replace("Landing");
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

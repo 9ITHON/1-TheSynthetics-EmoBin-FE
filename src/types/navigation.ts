@@ -1,3 +1,5 @@
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 export type RootStackParamList = {
   Login: undefined;
   KakaoLoginWebview: undefined;
@@ -18,3 +20,8 @@ export type NavParamList = {
   Landing: undefined;
   MyPage: undefined;
 };
+
+export type LoginSuccessNavProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "LoginSuccess"
+>;
