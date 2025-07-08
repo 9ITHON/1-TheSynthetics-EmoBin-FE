@@ -6,7 +6,6 @@ import { RootStackParamList } from "./src/types/navigation";
 import LoginScreen from "./src/screens/Login/LoginScreen";
 import KakaoLoginWebview from "./src/screens/Login/KakaoLoginWebview";
 import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";
-
 import Landing from "./src/screens/Landing/Landing";
 import WriteNote from "./src/screens/WriteNote/WriteNote";
 import Processing from "./src/screens/Processing/Processing";
@@ -17,8 +16,9 @@ import MyPage from "./src/screens/MyPage/MyPage";
 import UserInfo from "./src/screens/UserInfo/UserInfo";
 import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
+import FirstLogin from "./src/screens/FirstLogin/firstLogin";
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+// const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
