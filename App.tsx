@@ -6,9 +6,6 @@ import { RootStackParamList } from "./src/types/navigation";
 import LoginScreen from "./src/screens/Login/LoginScreen";
 import KakaoLoginWebview from "./src/screens/Login/KakaoLoginWebview";
 import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";
-
-
-
 import Landing from "./src/screens/Landing/Landing";
 import WriteNote from "./src/screens/WriteNote/WriteNote";
 import Processing from "./src/screens/Processing/Processing";
@@ -19,80 +16,13 @@ import MyPage from "./src/screens/MyPage/MyPage";
 import UserInfo from "./src/screens/UserInfo/UserInfo";
 import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
+import FirstLogin from "./src/screens/FirstLogin/firstLogin";
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+// const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
 export default function App() {
   return (
-    <NavigationContainer>
-      {/* <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="KakaoLoginWebview"
-          component={KakaoLoginWebview}
-          options={{ title: "카카오 로그인" }}
-        />
-        <Stack.Screen
-          name="LoginSuccess"
-          component={LoginSuccessScreen}
-        /> */}
-       {/* 
-      <Stack.Navigator initialRouteName="MyPage">
-        <Stack.Screen
-          name="MyPage"
-          component={MyPage}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="UserInfo"
-          component={UserInfo}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Notice"
-          component={Notice}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="HelpCenter"
-          component={HelpCenter}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-      */}
-
-      <Stack.Navigator initialRouteName="Landing">
-        <Stack.Screen
-          name="Landing"
-          component={Landing}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="WriteNote"
-          component={WriteNote}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Processing"
-          component={Processing}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="EmotionResult"
-          component={EmotionResult}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="History"
-          component={Navigation}
-          options={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <FirstLogin/>
   );
 }
