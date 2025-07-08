@@ -1,4 +1,3 @@
-// src/screens/Login/LoginSuccessScreen.tsx
 import React, { useEffect } from "react";
 import { View, Text, Image, BackHandler, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +9,7 @@ import { LoginSuccessNavProp } from "../../types/navigation";
 
 const logo = require("../../../assets/logo.png");
 
-const LoginSuccessScreen: React.FC = () => {
+const LoginSuccessScreen = () => {
   const navigation = useNavigation<LoginSuccessNavProp>();
 
   useEffect(() => {

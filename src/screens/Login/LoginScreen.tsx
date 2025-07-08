@@ -5,11 +5,9 @@ import { useAuthStore } from "../../stores/authStore";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./LoginScreen.style";
+import type { LoginScreenProps } from "../../types/login";
 
-
-type Props = NativeStackScreenProps<RootStackParamList, "Login">;
-
-const LoginScreen: React.FC<Props> = ({ navigation }) => {
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const profile = useAuthStore((s) => s.profile);
 
   useEffect(() => {
@@ -48,4 +46,3 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 };
 
 export default LoginScreen;
-
