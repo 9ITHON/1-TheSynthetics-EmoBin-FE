@@ -20,9 +20,72 @@ import FirstLogin from "./src/screens/FirstLogin/firstLogin";
 
 // const Stack = createNativeStackNavigator<RootStackParamList>();
 
-
 export default function App() {
   return (
-    <FirstLogin/>
+    <NavigationContainer>
+      {/* <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="KakaoLoginWebview"
+          component={KakaoLoginWebview}
+          options={{ title: "카카오 로그인" }}
+        />
+        <Stack.Screen
+          name="LoginSuccess"
+          component={LoginSuccessScreen}
+        /> */}
+
+      <Stack.Navigator initialRouteName="Landing">
+        <Stack.Screen
+          name="Landing"
+          component={Landing}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="WriteNote"
+          component={WriteNote}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Processing"
+          component={Processing}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EmotionResult"
+          component={EmotionResult}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="History"
+          component={Navigation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MyPage"
+          component={Navigation}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="UserInfo"
+          component={UserInfo}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Notice"
+          component={Notice}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HelpCenter"
+          component={HelpCenter}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

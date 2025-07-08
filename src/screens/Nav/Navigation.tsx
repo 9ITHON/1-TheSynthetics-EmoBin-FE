@@ -8,6 +8,7 @@ import { NavParamList } from "../../types/navigation";
 import HistoryIcon from "../../../assets/icons/history.svg";
 import MyPageIcon from "../../../assets/icons/my.svg";
 import HomeIcon from "../../../assets/icons/emobin.svg";
+import MyPage from "../MyPage/MyPage";
 
 const Tab = createBottomTabNavigator<NavParamList>();
 
@@ -48,10 +49,9 @@ const Navigator = () => {
       />
       <Tab.Screen
         name="MyPage"
-        component={Landing}
+        component={MyPage}
         options={{
           tabBarLabel: "마이페이지",
-          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <MyPageIcon
               fill={focused ? "#000" : "#BEBEBE"}

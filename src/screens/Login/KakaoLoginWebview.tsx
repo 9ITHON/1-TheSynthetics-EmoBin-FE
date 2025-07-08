@@ -1,4 +1,3 @@
-// 카카오 OAuth WebView → 토큰 교환 → 프로필 저장 + Login 화면으로 전달
 import React, { useRef } from "react";
 import { ActivityIndicator } from "react-native";
 import { WebView } from "react-native-webview";
@@ -11,9 +10,8 @@ import {
 import { useAuthStore } from "../../stores/authStore";
 import { Props } from "../../types/webview";
 
-const KakaoLoginWebview: React.FC<Props> = ({ navigation }) => {
+const KakaoLoginWebview = ({ navigation }: Props) => {
   const webRef = useRef<WebView>(null);
-
 
   const onNavChange = async ({ url }: { url: string }) => {
     if (!url.startsWith(REDIRECT_URI)) return;
@@ -51,6 +49,6 @@ const KakaoLoginWebview: React.FC<Props> = ({ navigation }) => {
       incognito
     />
   );
-}
+};
 
 export default KakaoLoginWebview;
