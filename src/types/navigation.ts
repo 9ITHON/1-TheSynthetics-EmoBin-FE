@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Processing: undefined;
   EmotionResult: undefined;
   History: undefined;
+  FirstLogin: undefined;
 };
 
 export type NavParamList = {

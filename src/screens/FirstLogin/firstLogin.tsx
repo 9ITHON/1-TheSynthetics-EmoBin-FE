@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -9,19 +9,28 @@ import {
   Pressable,
   Image,
   Alert,
-} from 'react-native';
-import { Picker } from '@react-native-picker/picker';
-import { styles } from './firstLogin.style';
-import { useSignupStore } from '../../stores/signupStore';
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { styles } from "./firstLogin.style";
+import { useSignupStore } from "../../stores/signupStore";
+import { useAuthStore } from "../../stores/authStore";
+import { signUp } from "../../api/signup_api";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../types/navigation"; // 스택 타입
+// import { saveTokens } from "../../utils/tokenStorage";
 
-const pad2 = (n: number | '') => (n === '' ? '' : String(n).padStart(2, '0'));
+
+const pad2 = (n: number | "") => (n === "" ? "" : String(n).padStart(2, "0"));
 
 const FirstLogin = () => {
-  const nickname    = useSignupStore((s) => s.nickname);
-  const gender      = useSignupStore((s) => s.gender);
-  const year        = useSignupStore((s) => s.year);
-  const month       = useSignupStore((s) => s.month);
-  const day         = useSignupStore((s) => s.day);
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  /* ───────── 상태 ───────── */
+  const nickname = useSignupStore((s) => s.nickname);
+  const gender   = useSignupStore((s) => s.gender);
+  const year     = useSignupStore((s) => s.year);
+  const month    = useSignupStore((s) => s.month);
+  const day      = useSignupStore((s) => s.day);
 
   const setNickname = useSignupStore((s) => s.setNickname);
   const setGender   = useSignupStore((s) => s.setGender);
@@ -29,17 +38,49 @@ const FirstLogin = () => {
   const setMonth    = useSignupStore((s) => s.setMonth);
   const setDay      = useSignupStore((s) => s.setDay);
 
+  /** ✅ OAuth 정보 */
+  const backend = useAuthStore((s) => s.backend);
+  const oauthId       = backend?.data?.oauthId;
+  const oauthProvider = backend?.data?.oauthProvider;
+
+  /* ───────── select 옵션 ───────── */
   const years  = useMemo(() => Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i), []);
   const months = useMemo(() => Array.from({ length: 12 }, (_, i) => i + 1), []);
   const days   = useMemo(() => Array.from({ length: 31 }, (_, i) => i + 1), []);
 
-  const handleSubmit = () => {
-    if (!nickname || !gender || year === '' || month === '' || day === '') {
-      Alert.alert('입력 오류', '모든 항목을 입력해 주세요.');
+  /* ───────── 전송 ───────── */
+  const handleSubmit = async () => {
+    if (!nickname || !gender || year === "" || month === "" || day === "") {
+      Alert.alert("입력 오류", "모든 항목을 입력해 주세요.");
       return;
     }
+    if (!oauthId || !oauthProvider) {
+      Alert.alert("오류", "OAuth 정보가 없습니다. 다시 로그인해 주세요.");
+      return;
+    }
+
     const birthdate = `${year}-${pad2(month)}-${pad2(day)}`;
-    console.log({ nickname, gender, birthdate });
+
+    try {
+      const res = await signUp({
+        oauthId,
+        oauthProvider,
+        nickname,
+        birthdate,
+        gender,
+      });
+
+      // await saveTokens(res.accessToken, res.refreshToken);
+
+      console.log("[Signup] success:", res);
+      Alert.alert("회원가입 완료", "정보가 저장되었습니다. 즐거운 이용 되세요!");
+    } catch (err: any) {
+      console.warn("[Signup] 실패:", err.response?.data ?? err);
+      Alert.alert(
+        "회원가입 실패",
+        err.response?.data?.message ?? "잠시 후 다시 시도해 주세요."
+      );
+    }
   };
 
   return (
@@ -50,7 +91,13 @@ const FirstLogin = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <Pressable onPress={() => console.log('goBack')} hitSlop={8}>
+          <Pressable 
+            onPress={() =>
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Login" }],
+            })
+          } hitSlop={8}>
             <Image source={require('../../../assets/Vector.png')} style={styles.backIcon} />
           </Pressable>
           <Text style={styles.headerTitle}>회원가입</Text>
