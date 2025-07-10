@@ -18,6 +18,7 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
 
   const onNavChange = async ({ url }: { url: string }) => {
     if (!url.startsWith(REDIRECT_URI)) return;
+
     const code = new URL(url).searchParams.get("code");
     if (!code) return;
 
@@ -28,6 +29,9 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
       const { access_token } = await exchangeKakaoToken(code);
       const kakaoProfile    = await fetchKakaoProfile(access_token);
       setProfile(kakaoProfile);
+
+      console.log("[Kakao] access_token:", access_token);
+      console.log("[Kakao] profile:", kakaoProfile);
 
       /* 2) 백엔드 회원 확인 API 호출 */
       const backendData = await memberCheck(access_token);

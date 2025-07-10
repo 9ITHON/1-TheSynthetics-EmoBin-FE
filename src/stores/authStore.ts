@@ -19,7 +19,7 @@ export interface AuthState {
   profile: any | null;
   backend: BackendLoginData | null;
   setProfile: (p: any) => void;
-  setBackend: (b: BackendLoginData) => void;
+  setBackend: (b: BackendLoginData | null) => void;
   logout: () => void;
 }
 

@@ -18,7 +18,8 @@ import { signUp } from "../../api/signup_api";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation"; // 스택 타입
-// import { saveTokens } from "../../utils/tokenStorage";
+import { saveTokens } from "../../utils/tokenStorage";
+
 
 
 const pad2 = (n: number | "") => (n === "" ? "" : String(n).padStart(2, "0"));
@@ -70,10 +71,12 @@ const FirstLogin = () => {
         gender,
       });
 
-      // await saveTokens(res.accessToken, res.refreshToken);
+      await saveTokens(res.accessToken, res.refreshToken);
+      useAuthStore.getState().setBackend(null);
 
       console.log("[Signup] success:", res);
       Alert.alert("회원가입 완료", "정보가 저장되었습니다. 즐거운 이용 되세요!");
+      navigation.reset({ index: 0, routes: [{ name: "Landing" }] });
     } catch (err: any) {
       console.warn("[Signup] 실패:", err.response?.data ?? err);
       Alert.alert(

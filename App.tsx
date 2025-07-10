@@ -32,7 +32,7 @@ export default function App() {
         <Stack.Screen
           name="KakaoLoginWebview"
           component={KakaoLoginWebview}
-          options={{ title: "카카오 로그인" }}
+          options={{ title: "카카오 로그인", headerShown: false }}
         />
         <Stack.Screen
           name="LoginSuccess"
@@ -45,7 +45,7 @@ export default function App() {
           options={{ headerShown: false }}
         />
 
-      {/* <Stack.Navigator initialRouteName="Landing">
+      
         <Stack.Screen
           name="Landing"
           component={Landing}
@@ -90,7 +90,7 @@ export default function App() {
           name="HelpCenter"
           component={HelpCenter}
           options={{ headerShown: false }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
