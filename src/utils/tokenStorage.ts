@@ -1,5 +1,6 @@
 // src/utils/tokenStorage.ts
 import * as SecureStore from "expo-secure-store";
+import axios from "axios";
 
 const ACCESS_KEY  = "jwt-access";
 const REFRESH_KEY = "jwt-refresh";
@@ -29,6 +30,8 @@ export const saveTokens = async (
     keychainAccessible: IOS_ACCESSIBLE,
     ...ANDROID_OPTIONS,
   });
+
+  axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 };
 
 /*───────────────────────────────────────*
