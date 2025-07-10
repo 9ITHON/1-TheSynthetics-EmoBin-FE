@@ -7,9 +7,9 @@ import {
   REDIRECT_URI,
   AUTH_URL,
 } from "../../api/KakaoLogin/kakao_api";
-import { memberCheck } from "../../api/member_check_api";
-import { useAuthStore } from "../../stores/authStore";
-import { Props } from "../../types/webview";
+import { memberCheck }        from "../../api/member_check_api";
+import { useAuthStore }       from "../../stores/authStore";
+import { Props }              from "../../types/webview";
 
 const KakaoLoginWebview = ({ navigation }: Props) => {
   const webRef = useRef<WebView>(null);
@@ -25,20 +25,17 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
     webRef.current?.stopLoading();
 
     try {
-      /* 1) 카카오 토큰·프로필 */
       const { access_token } = await exchangeKakaoToken(code);
-      const kakaoProfile    = await fetchKakaoProfile(access_token);
+      const kakaoProfile     = await fetchKakaoProfile(access_token);
       setProfile(kakaoProfile);
 
       console.log("[Kakao] access_token:", access_token);
       console.log("[Kakao] profile:", kakaoProfile);
 
-      /* 2) 백엔드 회원 확인 API 호출 */
-      const backendData = await memberCheck(access_token);
-      setBackend(backendData);
-      console.log("[Backend] saved to store:", backendData);
+      const backend = await memberCheck(access_token);
+      setBackend(backend);
+      console.log("[Backend] saved:", backend);
 
-      /* 3) 로그인 화면으로 돌아가기 */
       navigation.replace("Login", { profile: kakaoProfile });
     } catch (e) {
       console.warn("카카오 로그인 처리 실패", e);

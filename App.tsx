@@ -4,11 +4,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./src/types/navigation";
 
-import { loadTokens, saveTokens, clearTokens } from "./src/utils/tokenStorage";
 import { refreshTokenApi } from "./src/api/refresh_token_api";
 import { navigationRef }   from "./src/navigation/RootNavigation";
+import { useTokenStore }   from "./src/stores/tokenStore";     // ✅ Zustand 토큰 스토어
 
-// ─── Screens ────────────────────────────────────────────────────────────────
+/* ─── Screens ───────────────────────────────────────────── */
 import LoginScreen        from "./src/screens/Login/LoginScreen";
 import KakaoLoginWebview  from "./src/screens/Login/KakaoLoginWebview";
 import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";
@@ -24,43 +24,46 @@ import MyPage             from "./src/screens/MyPage/MyPage";
 import UserInfo           from "./src/screens/UserInfo/UserInfo";
 import Notice             from "./src/screens/Notice/Notice";
 import HelpCenter         from "./src/screens/HelpCenter/HelpCenter";
-// ─────────────────────────────────────────────────────────────────────────────
+/* ───────────────────────────────────────────────────────── */
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
+  /** refresh 검증 성공 → "Landing", 실패 → "Login" */
   const [initial, setInitial] = useState<"Landing" | "Login" | null>(null);
 
   useEffect(() => {
     (async () => {
-      const { refreshToken } = await loadTokens();
+      const { refreshToken, setTokens, clear } = useTokenStore.getState();
 
       if (refreshToken) {
         try {
+          /* 🔄 서버에 refreshToken 검증 → 새 토큰 쌍 */
           const fresh = await refreshTokenApi(refreshToken);
-          await saveTokens(fresh.accessToken, fresh.refreshToken);
-          setInitial("Landing");          // ✅ 성공 → 메인
+          await setTokens(fresh.accessToken, fresh.refreshToken); // SecureStore + 헤더 동기화
+          setInitial("Landing");                                 // 검증 성공
           return;
-        } catch (e) {
-          await clearTokens();            // 만료·오류 → 토큰 제거
+        } catch {
+          clear();                                               // 만료·오류 → 토큰 제거
         }
       }
-      setInitial("Login");                // 토큰 없거나 실패
+      setInitial("Login");                                       // 토큰 없거나 실패
     })();
   }, []);
 
-  if (!initial) return null;              // 로딩 화면 / 스플래시 넣어도 OK
+  /* 부트스트랩 중이면 스플래시 또는 로딩 화면을 넣어도 좋습니다 */
+  if (!initial) return null;
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={initial} screenOptions={{ headerShown:false }}>
-        {/* 인증 스택 */}
+      <Stack.Navigator initialRouteName={initial} screenOptions={{ headerShown: false }}>
+        {/* ── 인증 스택 ── */}
         <Stack.Screen name="Login"             component={LoginScreen} />
         <Stack.Screen name="KakaoLoginWebview" component={KakaoLoginWebview} />
         <Stack.Screen name="LoginSuccess"      component={LoginSuccessScreen} />
         <Stack.Screen name="FirstLogin"        component={FirstLogin} />
 
-        {/* 메인 스택 */}
+        {/* ── 메인 스택 ── */}
         <Stack.Screen name="Landing"       component={Landing} />
         <Stack.Screen name="WriteNote"     component={WriteNote} />
         <Stack.Screen name="Processing"    component={Processing} />

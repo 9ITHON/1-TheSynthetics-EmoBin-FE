@@ -1,3 +1,4 @@
+// src/screens/FirstLogin/FirstLogin.tsx
 import React, { useMemo } from "react";
 import {
   SafeAreaView,
@@ -12,21 +13,24 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./firstLogin.style";
+
 import { useSignupStore } from "../../stores/signupStore";
-import { useAuthStore } from "../../stores/authStore";
-import { signUp } from "../../api/signup_api";
+import { useAuthStore }   from "../../stores/authStore";
+import { useTokenStore }  from "../../stores/tokenStore";
+import { signUp }         from "../../api/signup_api";
+
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation"; // 스택 타입
-import { saveTokens } from "../../utils/tokenStorage";
-
-
+import { RootStackParamList } from "../../types/navigation";
 
 const pad2 = (n: number | "") => (n === "" ? "" : String(n).padStart(2, "0"));
 
+/* ────────────────────────────────────────────────────────── */
 const FirstLogin = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  /* ───────── 상태 ───────── */
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  /* 가입 폼 상태 */
   const nickname = useSignupStore((s) => s.nickname);
   const gender   = useSignupStore((s) => s.gender);
   const year     = useSignupStore((s) => s.year);
@@ -39,17 +43,20 @@ const FirstLogin = () => {
   const setMonth    = useSignupStore((s) => s.setMonth);
   const setDay      = useSignupStore((s) => s.setDay);
 
-  /** ✅ OAuth 정보 */
-  const backend = useAuthStore((s) => s.backend);
-  const oauthId       = backend?.data?.oauthId;
-  const oauthProvider = backend?.data?.oauthProvider;
+  /* OAuth 정보 (로그인 단계에서 받아 둔 backend) */
+  const backend        = useAuthStore((s) => s.backend);
+  const oauthId        = backend?.data?.oauthId;
+  const oauthProvider  = backend?.data?.oauthProvider;
 
-  /* ───────── select 옵션 ───────── */
-  const years  = useMemo(() => Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i), []);
+  /* 년·월·일 셀렉터 */
+  const years  = useMemo(
+    () => Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i),
+    []
+  );
   const months = useMemo(() => Array.from({ length: 12 }, (_, i) => i + 1), []);
   const days   = useMemo(() => Array.from({ length: 31 }, (_, i) => i + 1), []);
 
-  /* ───────── 전송 ───────── */
+  /* ───────── 회원가입 제출 ───────── */
   const handleSubmit = async () => {
     if (!nickname || !gender || year === "" || month === "" || day === "") {
       Alert.alert("입력 오류", "모든 항목을 입력해 주세요.");
@@ -63,6 +70,7 @@ const FirstLogin = () => {
     const birthdate = `${year}-${pad2(month)}-${pad2(day)}`;
 
     try {
+      /* ① 회원가입 API */
       const res = await signUp({
         oauthId,
         oauthProvider,
@@ -71,10 +79,12 @@ const FirstLogin = () => {
         gender,
       });
 
-      await saveTokens(res.accessToken, res.refreshToken);
+      /* ② 토큰을 전역 스토어에 저장 (SecureStore + Axios 헤더 동기화) */
+      useTokenStore.getState().setTokens(res.accessToken, res.refreshToken);
+
+      /* ③ backend 플래그 제거 → 부트 시 FirstLogin 안뜨도록 */
       useAuthStore.getState().setBackend(null);
 
-      console.log("[Signup] success:", res);
       Alert.alert("회원가입 완료", "정보가 저장되었습니다. 즐거운 이용 되세요!");
       navigation.reset({ index: 0, routes: [{ name: "Landing" }] });
     } catch (err: any) {
@@ -86,6 +96,7 @@ const FirstLogin = () => {
     }
   };
 
+  /* ───────── UI ───────── */
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -94,18 +105,22 @@ const FirstLogin = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.header}>
-          <Pressable 
+          {/* 뒤로가기 → Login으로 스택 초기화 */}
+          <Pressable
             onPress={() =>
-            navigation.reset({
-              index: 0,
-              routes: [{ name: "Login" }],
-            })
-          } hitSlop={8}>
-            <Image source={require('../../../assets/Vector.png')} style={styles.backIcon} />
+              navigation.reset({ index: 0, routes: [{ name: "Login" }] })
+            }
+            hitSlop={8}
+          >
+            <Image
+              source={require("../../../assets/Vector.png")}
+              style={styles.backIcon}
+            />
           </Pressable>
           <Text style={styles.headerTitle}>회원가입</Text>
         </View>
 
+        {/* 닉네임 */}
         <View style={styles.section}>
           <Text style={styles.label}>닉네임</Text>
           <TextInput
@@ -117,15 +132,25 @@ const FirstLogin = () => {
           />
         </View>
 
+        {/* 성별 */}
         <View style={styles.section}>
           <Text style={styles.label}>성별</Text>
           <View style={styles.genderRow}>
             {[
-              { key: 'FEMALE', label: '여성' },
-              { key: 'MALE',   label: '남성' },
+              { key: "FEMALE", label: "여성" },
+              { key: "MALE",   label: "남성" },
             ].map(({ key, label }) => (
-              <Pressable key={key} style={styles.genderOption} onPress={() => setGender(key as any)}>
-                <View style={[styles.radioOuter, gender === key && styles.radioOuterActive]}>
+              <Pressable
+                key={key}
+                style={styles.genderOption}
+                onPress={() => setGender(key as any)}
+              >
+                <View
+                  style={[
+                    styles.radioOuter,
+                    gender === key && styles.radioOuterActive,
+                  ]}
+                >
                   {gender === key && <View style={styles.radioInner} />}
                 </View>
                 <Text style={styles.genderText}>{label}</Text>
@@ -134,17 +159,21 @@ const FirstLogin = () => {
           </View>
         </View>
 
+        {/* 생년월일 */}
         <View style={styles.section}>
           <Text style={styles.label}>생년월일</Text>
           <View style={styles.birthRow}>
             {[
-              { placeholder: '연도', value: year,   setter: setYear,   items: years  },
-              { placeholder: '월',   value: month,  setter: setMonth,  items: months },
-              { placeholder: '일',   value: day,    setter: setDay,    items: days   },
+              { placeholder: "연도", value: year,   setter: setYear,   items: years  },
+              { placeholder: "월",   value: month,  setter: setMonth,  items: months },
+              { placeholder: "일",   value: day,    setter: setDay,    items: days   },
             ].map(({ placeholder, value, setter, items }, idx) => (
               <View
                 key={placeholder}
-                style={[styles.pickerWrapper, idx !== 2 && styles.pickerMargin]}
+                style={[
+                  styles.pickerWrapper,
+                  idx !== 2 && styles.pickerMargin,
+                ]}
               >
                 <Picker
                   mode="dropdown"
@@ -163,7 +192,12 @@ const FirstLogin = () => {
           </View>
         </View>
 
-        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} activeOpacity={0.8}>
+        {/* 제출 버튼 */}
+        <TouchableOpacity
+          style={styles.submitButton}
+          onPress={handleSubmit}
+          activeOpacity={0.8}
+        >
           <Text style={styles.submitText}>동의</Text>
         </TouchableOpacity>
       </ScrollView>
