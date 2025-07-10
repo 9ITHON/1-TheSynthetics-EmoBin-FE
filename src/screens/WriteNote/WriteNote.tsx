@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import NotificationIcon from "../../../assets/icons/notification.svg";
-import Note from "../../../assets/images/note.svg";
 import { styles } from "./WriteNote.styles";
 
 const WriteNote = () => {
@@ -22,7 +21,10 @@ const WriteNote = () => {
       </View>
 
       <View style={styles.noteContainer}>
-        <Note style={styles.noteImage} />
+        <Image
+          source={require("../../../assets/images/note.png")}
+          style={styles.noteImage}
+        />
         <TouchableOpacity style={styles.textInputWrapper} activeOpacity={1}>
           <TextInput
             style={styles.textInput}
@@ -32,11 +34,7 @@ const WriteNote = () => {
             value={noteText}
             onChangeText={setNoteText}
             textAlignVertical="top"
-            maxLength={462}
           />
-          <View style={styles.counterContainer}>
-            <Text style={styles.counterText}>{noteText.length} / 462</Text>
-          </View>
         </TouchableOpacity>
       </View>
 

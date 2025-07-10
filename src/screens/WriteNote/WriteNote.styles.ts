@@ -1,4 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
+
+const { width, height } = Dimensions.get("window");
+const isWeb = Platform.OS === "web";
 
 export const styles = StyleSheet.create({
   container: {
@@ -22,25 +25,36 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
   },
+
   noteImage: {
-    width: "160%",
+    width: isWeb ? 400 : "160%",
     aspectRatio: 0.7,
+    resizeMode: "contain",
   },
 
   textInputWrapper: {
     position: "absolute",
-    top: 175,
-    left: 50,
-    right: 50,
-    bottom: 150,
+    width: isWeb ? 300 : "75%",
+    top: isWeb ? 80 : 180,
+    alignSelf: "center",
     justifyContent: "flex-start",
+    minHeight: isWeb ? 390 : 80,
   },
+
   textInput: {
-    flex: 1,
     fontSize: 12,
+    height: isWeb ? 390 : 400,
     color: "#000",
-    lineHeight: 26,
+    lineHeight: 27,
     textAlignVertical: "top",
+    padding: 10,
+    minHeight: isWeb ? 390 : 80,
+    backgroundColor: "transparent",
+    borderWidth: 0,
+    ...(isWeb && {
+      outlineStyle: "none",
+      overflow: "hidden",
+    }),
   },
 
   submitButton: {
@@ -49,9 +63,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 14,
     alignItems: "center",
     marginBottom: 50,
-    width: "50%",
     marginLeft: "auto",
     marginRight: "auto",
+    width: isWeb ? "20%" : "50%",
   },
   submitButtonText: {
     color: "#fff",
