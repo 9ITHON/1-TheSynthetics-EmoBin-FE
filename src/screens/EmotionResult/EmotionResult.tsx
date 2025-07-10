@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { RootStackParamList } from "../../types/navigation";
@@ -12,19 +12,23 @@ const EmotionResult = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  const route = useRoute<any>();
+  const { result } = route.params;
+  const { nickname, emotion, causes, message } = result.data;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>ㅇㅇ의 감정 분석 결과</Text>
+      <Text style={styles.header}>{nickname}의 감정 분석 결과</Text>
 
       <View style={styles.characterContainer}>
         <Character1 style={styles.characterImage} />
         <Shadow style={styles.shadowImage} />
       </View>
 
-      <Text style={styles.emotion}>슬픔</Text>
+      <Text style={styles.emotion}>{emotion}</Text>
 
       <View style={styles.tagsContainer}>
-        {["자존감", "인간관계", "인간관계"].map((tag, index) => (
+        {causes.map((tag: string, index: number) => (
           <Text key={index} style={styles.tag}>
             <Text style={styles.tagHash}>#</Text>
             <Text style={styles.tagText}> {tag}</Text>
@@ -34,9 +38,12 @@ const EmotionResult = () => {
 
       <View style={styles.analysisBox}>
         <Text style={styles.analysisText}>
-          그런일이 있었구나{"\n"}
-          이런 부분에서 너의 감정이{"\n"}
-          많이 안 좋을 거 같네
+          {message.split("\n").map((line, index) => (
+            <Text key={index}>
+              {line}
+              {"\n"}
+            </Text>
+          ))}
         </Text>
       </View>
 

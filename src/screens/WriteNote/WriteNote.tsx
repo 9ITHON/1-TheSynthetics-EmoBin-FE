@@ -1,7 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, TextInput, Image } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Image,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
 import { RootStackParamList } from "../../types/navigation";
 import NotificationIcon from "../../../assets/icons/notification.svg";
 import { styles } from "./WriteNote.styles";
@@ -10,6 +18,15 @@ const WriteNote = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [noteText, setNoteText] = useState("");
+
+  const handleSubmit = () => {
+    if (!noteText.trim()) {
+      Alert.alert("텍스트를 입력해주세요.");
+      return;
+    }
+
+    navigation.navigate("Processing", { noteText });
+  };
 
   return (
     <View style={styles.container}>
@@ -38,10 +55,7 @@ const WriteNote = () => {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
-        style={styles.submitButton}
-        onPress={() => navigation.navigate("Processing")}
-      >
+      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>작성완료</Text>
       </TouchableOpacity>
     </View>
