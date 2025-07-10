@@ -20,7 +20,7 @@ export interface AuthState {
   backend: BackendLoginData | null;
   setProfile: (p: any) => void;
   setBackend: (b: BackendLoginData | null) => void;
-  logout: () => void;
+  logout: () => Promise<void>; // Promise를 반환하도록 변경
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,7 +30,12 @@ export const useAuthStore = create<AuthState>()(
       backend: null,
       setProfile: (p) => set({ profile: p }),
       setBackend: (b) => set({ backend: b }),
-      logout: () => set({ profile: null, backend: null }),
+      logout: async () => { // async로 변경
+        set({ profile: null, backend: null });
+        console.log("[AuthStore] Memory state set to null. Current state:", useAuthStore.getState());
+        await AsyncStorage.removeItem("auth-storage"); // await 추가
+        console.log("[AuthStore] AsyncStorage 'auth-storage' deleted.");
+      },
     }),
     {
       name: 'auth-storage',

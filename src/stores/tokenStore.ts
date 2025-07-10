@@ -11,7 +11,7 @@ type Tokens = {
 
 interface TokenState extends Tokens {
   setTokens:  (a: string, r: string) => void;
-  clear: () => void;
+  clear: () => Promise<void>; // Promise를 반환하도록 변경
 }
 
 export const useTokenStore = create<TokenState>()(
@@ -20,7 +20,12 @@ export const useTokenStore = create<TokenState>()(
       accessToken:  null,
       refreshToken: null,
       setTokens: (a, r) => set({ accessToken: a, refreshToken: r }),
-      clear:     ()   => set({ accessToken: null, refreshToken: null }),
+      clear:     async ()   => { // async로 변경
+        set({ accessToken: null, refreshToken: null });
+        console.log("[TokenStore] Memory state set to null. Current state:", useTokenStore.getState());
+        await SecureStore.deleteItemAsync("auth-tokens"); // SecureStore에서도 삭제
+        console.log("[TokenStore] SecureStore 'auth-tokens' deleted.");
+      },
     }),
     {
       name: "auth-tokens",                         // SecureStore key

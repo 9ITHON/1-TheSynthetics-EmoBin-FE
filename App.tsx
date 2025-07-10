@@ -7,6 +7,7 @@ import { RootStackParamList } from "./src/types/navigation";
 import { refreshTokenApi } from "./src/api/refresh_token_api";
 import { navigationRef }   from "./src/navigation/RootNavigation";
 import { useTokenStore }   from "./src/stores/tokenStore";
+import { useAuthStore }    from "./src/stores/authStore";
 
 /* ─── Screens ───────────────────────────────────────────── */
 import LoginScreen        from "./src/screens/Login/LoginScreen";
@@ -29,12 +30,12 @@ import HelpCenter         from "./src/screens/HelpCenter/HelpCenter";
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
-  /** refresh 검증 성공 → "Landing", 실패 → "Login" */
-  const [initial, setInitial] = useState<"Landing" | "Login" | null>(null);
+  const [isHydrated, setIsHydrated] = useState(false);
+  const [initial, setInitial] = useState<"Landing" | "Login" | "FirstLogin" | null>(null);
 
   /* ───────── (1) 디버그: 토큰 변화 로그 ───────── */
   useEffect(() => {
-    if (!__DEV__) return;                       // 릴리스 빌드에서는 생략
+    if (!__DEV__) return;
     const unsub = useTokenStore.subscribe((s) =>
       console.log(
         "[TokenStore]",
@@ -42,30 +43,60 @@ export default function App() {
         Date.now()
       )
     );
-    return unsub;                               // 언마운트 시 구독 해제
+    return unsub;
   }, []);
 
-  /* ───────── (2) 부트스트랩 refresh 검증 ───────── */
+  /* ───────── (2) Zustand 스토어 rehydration 대기 ───────── */
   useEffect(() => {
+    const unsubscribe = useTokenStore.persist.onFinishHydration(() =>
+      setIsHydrated(true)
+    );
+
+    if (useTokenStore.persist.hasHydrated()) {
+      setIsHydrated(true);
+    }
+
+    return unsubscribe;
+  }, []);
+
+  /* ───────── (3) rehydration 완료 후 refresh 검증 ───────── */
+  useEffect(() => {
+    if (!isHydrated) return;
+
     (async () => {
+      console.log("[App.tsx] Refresh token check useEffect triggered.");
       const { refreshToken, setTokens, clear } = useTokenStore.getState();
+      const { backend, logout } = useAuthStore.getState(); // useAuthStore에서 backend와 logout 가져오기
+      console.log("[App.tsx] Hydration finished. Refresh token from store:", refreshToken?.slice(0, 20) ?? "null");
+      console.log("[App.tsx] Hydration finished. Auth backend from store:", backend?.code ?? "null"); // backend 코드 로그 추가
+
+      // backend.code가 MEMBER_NOT_FOUND인 경우, authStore를 초기화하고 FirstLogin 화면으로 이동
+      if (backend?.code === "MEMBER_NOT_FOUND") {
+        console.log("[App.tsx] MEMBER_NOT_FOUND detected. Clearing auth store and navigating to FirstLogin.");
+        await logout(); // authStore 초기화
+        setInitial("FirstLogin");
+        return;
+      }
 
       if (refreshToken) {
         try {
-          /* 🔄 서버에 refreshToken 검증 → 새 토큰 쌍 */
+          console.log("[App.tsx] Attempting to refresh token...");
           const fresh = await refreshTokenApi(refreshToken);
-          await setTokens(fresh.accessToken, fresh.refreshToken); // SecureStore + Axios 헤더 동기화
-          setInitial("Landing");                                 // 검증 성공
+          console.log("[App.tsx] Token refresh successful. Setting new tokens.");
+          setTokens(fresh.accessToken, fresh.refreshToken);
+          setInitial("Landing");
           return;
-        } catch {
-          clear();                                               // 만료·오류 → 토큰 제거
+        } catch (error) {
+          console.error("[App.tsx] Refresh token failed:", error);
+          setInitial("Login"); // 이 줄을 추가합니다.
         }
+      } else { // refreshToken이 없는 경우에도 로그인 화면으로 이동
+        console.log("[App.tsx] No refresh token. Navigating to Login.");
+        setInitial("Login");
       }
-      setInitial("Login");                                       // 토큰 없거나 실패
     })();
-  }, []);
+  }, [isHydrated]);
 
-  /* 부트스트랩 중이면 스플래시 또는 로딩 화면을 넣어도 좋습니다 */
   if (!initial) return null;
 
   return (
@@ -76,7 +107,7 @@ export default function App() {
       >
         {/* ── 인증 스택 ── */}
         <Stack.Screen name="Login"             component={LoginScreen} />
-        <Stack.Screen name="KakaoLoginWebview" component={KakaoLoginWebview} />
+        <Stack.Screen name="KakaoLoginWebview" component={KakaoLoginWebview} options={ {headerShown: true}}/>
         <Stack.Screen name="LoginSuccess"      component={LoginSuccessScreen} />
         <Stack.Screen name="FirstLogin"        component={FirstLogin} />
 
