@@ -6,7 +6,7 @@ import { RootStackParamList } from "./src/types/navigation";
 
 import { refreshTokenApi } from "./src/api/refresh_token_api";
 import { navigationRef }   from "./src/navigation/RootNavigation";
-import { useTokenStore }   from "./src/stores/tokenStore";   // ✅ 토큰 zustand
+import { useTokenStore }   from "./src/stores/tokenStore";
 
 /* ─── Screens ───────────────────────────────────────────── */
 import LoginScreen        from "./src/screens/Login/LoginScreen";
