@@ -6,7 +6,7 @@ import { RootStackParamList } from "./src/types/navigation";
 
 import { refreshTokenApi } from "./src/api/refresh_token_api";
 import { navigationRef }   from "./src/navigation/RootNavigation";
-import { useTokenStore }   from "./src/stores/tokenStore";     // ✅ Zustand 토큰 스토어
+import { useTokenStore }   from "./src/stores/tokenStore";   // ✅ 토큰 zustand
 
 /* ─── Screens ───────────────────────────────────────────── */
 import LoginScreen        from "./src/screens/Login/LoginScreen";
@@ -32,6 +32,20 @@ export default function App() {
   /** refresh 검증 성공 → "Landing", 실패 → "Login" */
   const [initial, setInitial] = useState<"Landing" | "Login" | null>(null);
 
+  /* ───────── (1) 디버그: 토큰 변화 로그 ───────── */
+  useEffect(() => {
+    if (!__DEV__) return;                       // 릴리스 빌드에서는 생략
+    const unsub = useTokenStore.subscribe((s) =>
+      console.log(
+        "[TokenStore]",
+        s.accessToken?.slice(0, 20) ?? "null",
+        Date.now()
+      )
+    );
+    return unsub;                               // 언마운트 시 구독 해제
+  }, []);
+
+  /* ───────── (2) 부트스트랩 refresh 검증 ───────── */
   useEffect(() => {
     (async () => {
       const { refreshToken, setTokens, clear } = useTokenStore.getState();
@@ -40,7 +54,7 @@ export default function App() {
         try {
           /* 🔄 서버에 refreshToken 검증 → 새 토큰 쌍 */
           const fresh = await refreshTokenApi(refreshToken);
-          await setTokens(fresh.accessToken, fresh.refreshToken); // SecureStore + 헤더 동기화
+          await setTokens(fresh.accessToken, fresh.refreshToken); // SecureStore + Axios 헤더 동기화
           setInitial("Landing");                                 // 검증 성공
           return;
         } catch {
@@ -56,7 +70,10 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName={initial} screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        initialRouteName={initial}
+        screenOptions={{ headerShown: false }}
+      >
         {/* ── 인증 스택 ── */}
         <Stack.Screen name="Login"             component={LoginScreen} />
         <Stack.Screen name="KakaoLoginWebview" component={KakaoLoginWebview} />
