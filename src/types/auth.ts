@@ -27,3 +27,10 @@ export interface BackendLoginData {
   message: string;
 }
 
+export interface WithdrawalResponse {
+  message: string;
+}
+
+export interface LogoutResponse {
+  message: string;
+}
