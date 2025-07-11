@@ -33,7 +33,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       return;
     }
 
-    if (backend.code === "MEMBER_NOT_FOUND") {
+    if (backend.code === "SIGNUP_REQUIRED") {
       Alert.alert("회원가입 필요");
       navigation.reset({
         index: 0,

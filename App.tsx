@@ -62,8 +62,8 @@ export default function App() {
       console.log("[App.tsx] Hydration finished. Refresh token from store:", refreshToken?.slice(0, 20) ?? "null");
       console.log("[App.tsx] Hydration finished. Auth backend from store:", backend?.code ?? "null"); 
 
-      if (backend?.code === "MEMBER_NOT_FOUND") {
-        console.log("[App.tsx] MEMBER_NOT_FOUND detected. Clearing auth store and navigating to FirstLogin.");
+      if (backend?.code === "SIGNUP_REQUIRED") {
+        console.log("[App.tsx] SIGNUP_REQUIRED detected. Clearing auth store and navigating to FirstLogin.");
         await logout(); 
         setInitial("FirstLogin");
         return;
