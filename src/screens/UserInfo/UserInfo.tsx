@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,46 +6,22 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Modal,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-
+import axios from "axios";
+import api from "../../utils/api";
 import { styles } from "./UserInfo.styles";
 import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
 import ForwardIcon from "../../../assets/icons/forward.svg";
 import { RootStackParamList } from "../../types/navigation";
 
-LocaleConfig.locales.ko = {
-  monthNames: [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ],
-  monthNamesShort: [
-    "1월",
-    "2월",
-    "3월",
-    "4월",
-    "5월",
-    "6월",
-    "7월",
-    "8월",
-    "9월",
-    "10월",
-    "11월",
-    "12월",
-  ],
+LocaleConfig.locales["ko"] = {
+  monthNames: [...Array(12)].map((_, i) => `${i + 1}월`),
+  monthNamesShort: [...Array(12)].map((_, i) => `${i + 1}월`),
   dayNames: [
     "일요일",
     "월요일",
@@ -63,19 +39,55 @@ LocaleConfig.defaultLocale = "ko";
 const UserInfo = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [username, setUsername] = useState("민주콩");
-  const [isEditing, setIsEditing] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [birthDate, setBirthDate] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [isGenderDropdownVisible, setGenderDropdownVisible] =
+    useState<boolean>(false);
+  const [isCalendarVisible, setCalendarVisible] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const [birthDate, setBirthDate] = useState("1993.10.25");
-  const [gender, setGender] = useState("선택안함");
-  const [isGenderDropdownVisible, setGenderDropdownVisible] = useState(false);
-  const [isCalendarVisible, setCalendarVisible] = useState(false);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get<any>("/api/member/me");
+        const profile = res.data.data ?? res.data;
+        setUsername(profile.nickname ?? "");
+        setBirthDate((profile.birth ?? "").replace(/-/g, "."));
+        setGender(profile.gender ?? "");
+      } catch (err: any) {
+        console.error("프로필 조회 실패:", err);
+        Alert.alert("오류", "프로필 정보를 불러오지 못했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const updateNickname = async (newNickname: string) => {
+    try {
+      await api.put("/api/member/me", { nickname: newNickname });
+      Alert.alert("알림", "닉네임이 성공적으로 변경되었습니다.");
+    } catch (err: any) {
+      console.error("닉네임 수정 실패:", err);
+      Alert.alert("오류", "닉네임 수정에 실패했습니다.");
+    }
+  };
 
   const handleSelectDate = (day: { dateString: string }) => {
-    const formatted = day.dateString.replace(/-/g, ".");
-    setBirthDate(formatted);
+    setBirthDate(day.dateString.replace(/-/g, "."));
     setCalendarVisible(false);
   };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.loadingText}>로딩 중...</Text>
+      </View>
+    );
+  }
 
   return (
     <TouchableWithoutFeedback
@@ -101,8 +113,14 @@ const UserInfo = () => {
                 style={styles.usernameInput}
                 value={username}
                 onChangeText={setUsername}
-                onBlur={() => setIsEditing(false)}
-                onSubmitEditing={() => setIsEditing(false)}
+                onBlur={() => {
+                  setIsEditing(false);
+                  updateNickname(username);
+                }}
+                onSubmitEditing={() => {
+                  setIsEditing(false);
+                  updateNickname(username);
+                }}
                 autoFocus
                 returnKeyType="done"
               />
@@ -144,7 +162,7 @@ const UserInfo = () => {
             <TouchableOpacity
               onPress={(e) => {
                 e.stopPropagation();
-                setGenderDropdownVisible(!isGenderDropdownVisible);
+                setGenderDropdownVisible((prev) => !prev);
               }}
             >
               <Text style={styles.infoValue}>
@@ -152,7 +170,6 @@ const UserInfo = () => {
               </Text>
             </TouchableOpacity>
           </View>
-
           {isGenderDropdownVisible && (
             <View style={styles.genderDropdown}>
               <TouchableOpacity onPress={() => setGender("남자")}>
@@ -185,9 +202,8 @@ const UserInfo = () => {
                 }}
                 hideExtraDays
                 monthFormat="yyyy년 M월"
-                onMonthChange={() => {}}
-                renderArrow={(direction) =>
-                  direction === "left" ? (
+                renderArrow={(dir) =>
+                  dir === "left" ? (
                     <BackIcon style={{ width: 20, height: 20 }} />
                   ) : (
                     <ForwardIcon style={{ width: 20, height: 20 }} />
@@ -199,7 +215,7 @@ const UserInfo = () => {
                   textDayFontWeight: "bold",
                   textMonthFontSize: 20,
                   textMonthFontWeight: "bold",
-                  textSectionTitleColor: "rgba(138, 138, 138, 1)",
+                  textSectionTitleColor: "rgba(138,138,138,1)",
                   arrowColor: "#333",
                 }}
               />
