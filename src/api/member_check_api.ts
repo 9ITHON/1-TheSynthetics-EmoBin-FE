@@ -5,11 +5,11 @@ import { MemberCheckResponse } from "../types/member_check";
 
 
 const memberCheck = async (
-  accessToken: string
+  code: string
 ): Promise<MemberCheckResponse> => {
   const { data } = await api.post<MemberCheckResponse>(
     "/auth/kakao/login",
-    { accessToken },
+    { code },
     { headers: { "Content-Type": "application/json" } }
   );
 

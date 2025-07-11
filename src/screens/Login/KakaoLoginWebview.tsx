@@ -25,17 +25,18 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
     webRef.current?.stopLoading();
 
     try {
-      const { access_token } = await exchangeKakaoToken(code);
-      const kakaoProfile     = await fetchKakaoProfile(access_token);
-      setProfile(kakaoProfile);
+      // const { access_token } = await exchangeKakaoToken(code);
+      // const kakaoProfile     = await fetchKakaoProfile(access_token);
+      // setProfile(kakaoProfile);
 
-      console.log("[Kakao] access_token:", access_token);
-      console.log("[Kakao] profile:", kakaoProfile);
+      // console.log("[Kakao] access_token:", access_token);
+      // console.log("[Kakao] profile:", kakaoProfile);
 
-      const backend = await memberCheck(access_token);
+      console.log(code);
+      const backend = await memberCheck(code);
       setBackend(backend);
 
-      navigation.replace("Login", { profile: kakaoProfile });
+      navigation.replace("Login");
     } catch (e) {
       console.warn("카카오 로그인 처리 실패", e);
       navigation.goBack();
