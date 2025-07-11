@@ -6,6 +6,8 @@ import {
   TextInput,
   Image,
   Alert,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -29,36 +31,41 @@ const WriteNote = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={{ flex: 1 }} />
-        <TouchableOpacity>
-          <NotificationIcon width={24} height={24} />
-        </TouchableOpacity>
-      </View>
+    <TouchableWithoutFeedback
+      onPress={() => Keyboard.dismiss()}
+      accessible={false}
+    >
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity>
+            <NotificationIcon width={24} height={24} />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.noteContainer}>
-        <Image
-          source={require("../../../assets/images/note.png")}
-          style={styles.noteImage}
-        />
-        <TouchableOpacity style={styles.textInputWrapper} activeOpacity={1}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="여기에 입력하세요..."
-            placeholderTextColor="#aaa"
-            multiline
-            value={noteText}
-            onChangeText={setNoteText}
-            textAlignVertical="top"
+        <View style={styles.noteContainer}>
+          <Image
+            source={require("../../../assets/images/note.png")}
+            style={styles.noteImage}
           />
+          <TouchableOpacity style={styles.textInputWrapper} activeOpacity={1}>
+            <TextInput
+              style={styles.textInput}
+              placeholder="여기에 입력하세요..."
+              placeholderTextColor="#aaa"
+              multiline
+              value={noteText}
+              onChangeText={setNoteText}
+              textAlignVertical="top"
+            />
+          </TouchableOpacity>
+        </View>
+
+        <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+          <Text style={styles.submitButtonText}>작성완료</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitButtonText}>작성완료</Text>
-      </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
