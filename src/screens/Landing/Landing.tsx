@@ -8,7 +8,7 @@ import axios from "axios";
 import api from "../../utils/api";
 import { useTokenStore } from "../../stores/tokenStore";
 import NotificationIcon from "../../../assets/icons/notification.svg";
-import MenuIcon from "../../../assets/icons/menu.svg";
+import MyIcon from "../../../assets/icons/my.svg";
 import Character1 from "../../../assets/images/character1.svg";
 import Shadow from "../../../assets/images/shadow.svg";
 
@@ -58,8 +58,8 @@ const Landing = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity>
-          <MenuIcon width={24} height={24} style={styles.icon} />
+        <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
+          <MyIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity>
           <NotificationIcon width={24} height={24} style={styles.icon} />
