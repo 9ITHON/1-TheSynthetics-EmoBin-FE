@@ -27,9 +27,11 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   }, []);
 
   useEffect(() => {
+    console.log("useEffect triggered. isHydrated:", isHydrated, "backend:", backend);
     if (!isHydrated) return;
 
-    if (!backend || !profile) {
+    if (!backend) {
+      console.log("Backend is null/undefined.");
       return;
     }
 
@@ -46,10 +48,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       saveTokens(backend.accessToken as string, backend.refreshToken as string)
         .catch(console.warn);
 
-      Alert.alert(
-        "로그인 성공",
-        `환영합니다, ${profile.profile?.nickname || "사용자"}님!`
-      );
       navigation.reset({
         index: 0,
         routes: [{ name: "Landing" }],

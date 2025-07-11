@@ -19,6 +19,10 @@ const Landing = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    const { accessToken, refreshToken } = useTokenStore.getState();
+    console.log("Landing Screen - Access Token:", accessToken);
+    console.log("Landing Screen - Refresh Token:", refreshToken);
+
     const fetchProfile = async () => {
       try {
         const res = await api.get<{
