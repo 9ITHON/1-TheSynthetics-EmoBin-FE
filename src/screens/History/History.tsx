@@ -45,22 +45,22 @@ const History = () => {
   >([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
+  const getMarkColor = (temp: number): string => {
+    if (temp < 16.5) return "#84AFD5";
+    if (temp < 24.5) return "#BE86B8";
+    if (temp < 32.5) return "#96CA76";
+    if (temp < 40.5) return "#F3B4A2";
+    return "#F1A85C";
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get<{
-          code: string;
-          data?: { nickname: string };
-          nickname?: string;
-        }>("/api/member/me");
-        const nickname = res.data.data?.nickname ?? (res.data as any).nickname;
-        if (nickname) setUsername(nickname);
-        else console.warn("프로필 응답에서 nickname을 찾을 수 없습니다.");
-      } catch (err: any) {
-        if (axios.isAxiosError(err) && err.response) {
-          console.log("프로필 조회 에러 status:", err.response.status);
-          console.log("프로필 조회 에러 data:", err.response.data);
-        } else console.log("Unexpected error:", err);
+        const res = await api.get<any>("/api/member/me");
+        const nick = res.data.data?.nickname ?? (res.data as any).nickname;
+        if (nick) setUsername(nick);
+      } catch (err) {
+        console.warn("프로필 조회 실패:", err);
       } finally {
         setLoadingUsername(false);
       }
@@ -79,12 +79,13 @@ const History = () => {
         setTemperatureValue(
           monthlyTemperature === 0 ? 36.5 : monthlyTemperature
         );
+
         const marks: MarkedDates = {};
-        dailySummaries.forEach(({ date }) => {
+        dailySummaries.forEach(({ date, temperature }) => {
           marks[date] = {
             startingDay: true,
             endingDay: true,
-            color: "#F5D85C",
+            color: getMarkColor(temperature),
             textColor: "#000",
           };
         });
@@ -122,18 +123,14 @@ const History = () => {
               <Avatar style={styles.avatarSvg} />
             </View>
           </View>
-
           <View style={styles.temperatureInfo}>
             <Text style={styles.username}>
               {loadingUsername ? "로딩 중..." : `${username}님`}
             </Text>
             <Text style={styles.temperatureLabel}>
-              온도{" "}
-              {temperatureValue !== null
-                ? `${temperatureValue}℃`
-                : "로딩 중..."}
+              온도 {temperatureValue != null ? `${temperatureValue}℃` : "..."}
             </Text>
-            {temperatureValue !== null && (
+            {temperatureValue != null && (
               <Thermometer temperature={temperatureValue} />
             )}
           </View>
@@ -148,10 +145,9 @@ const History = () => {
             markingType="period"
             markedDates={markedDates}
             onMonthChange={onMonthChange}
-            onDayPress={({ dateString }) => {
-              if (markedDates[dateString]) setSelectedDate(dateString);
-              else setSelectedDate(null);
-            }}
+            onDayPress={({ dateString }) =>
+              setSelectedDate(markedDates[dateString] ? dateString : null)
+            }
             monthFormat="yyyy년 MM월"
             theme={{
               todayTextColor: "#F5B500",
@@ -165,7 +161,10 @@ const History = () => {
         {selectedDate && (
           <View
             style={{
-              backgroundColor: "#F5D85C",
+              backgroundColor: getMarkColor(
+                dailySummaries.find((d) => d.date === selectedDate)
+                  ?.temperature ?? 0
+              ),
               marginTop: 12,
               padding: 16,
               borderRadius: 8,
