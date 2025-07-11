@@ -9,3 +9,12 @@ export interface SummaryResponse {
   };
   message?: string;
 }
+
+export type MarkedDates = {
+  [date: string]: {
+    startingDay?: boolean;
+    endingDay?: boolean;
+    color?: string;
+    textColor?: string;
+  };
+};

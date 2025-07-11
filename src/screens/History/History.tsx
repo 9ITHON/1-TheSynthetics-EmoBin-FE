@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import axios from "axios";
 import api from "../../utils/api";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./History.styles";
@@ -10,6 +11,7 @@ import Avatar from "../../../assets/images/avatar.svg";
 import BackIcon from "../../../assets/icons/back.svg";
 import Thermometer from "../../components/Thermometer/Thermometer";
 import { SummaryResponse } from "../../types/thermometer";
+import { MarkedDates } from "../../types/thermometer";
 
 LocaleConfig.locales["ko"] = {
   monthNames: [...Array(12)].map((_, i) => `${i + 1}월`),
@@ -31,25 +33,75 @@ LocaleConfig.defaultLocale = "ko";
 const History = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [currentMonth, setCurrentMonth] = useState<string>(
+    new Date().toISOString().slice(0, 7)
+  );
   const [temperatureValue, setTemperatureValue] = useState<number | null>(null);
+  const [username, setUsername] = useState<string>("");
+  const [loadingUsername, setLoadingUsername] = useState<boolean>(true);
+  const [markedDates, setMarkedDates] = useState<MarkedDates>({});
+  const [dailySummaries, setDailySummaries] = useState<
+    { date: string; temperature: number }[]
+  >([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTemperature = async () => {
+    const fetchProfile = async () => {
       try {
-        const now = new Date();
-        const month = now.toISOString().slice(0, 7);
-        const response = await api.get<SummaryResponse>(
-          "/api/emotion-temperature/summary",
-          { params: { month } }
-        );
-        const value = response.data.data.monthlyTemperature;
-        setTemperatureValue(value === 0.0 ? 36.5 : value);
-      } catch (error: any) {
-        Alert.alert("오류", "감정 온도 정보를 불러오지 못했어요.");
+        const res = await api.get<{
+          code: string;
+          data?: { nickname: string };
+          nickname?: string;
+        }>("/api/member/me");
+        const nickname = res.data.data?.nickname ?? (res.data as any).nickname;
+        if (nickname) setUsername(nickname);
+        else console.warn("프로필 응답에서 nickname을 찾을 수 없습니다.");
+      } catch (err: any) {
+        if (axios.isAxiosError(err) && err.response) {
+          console.log("프로필 조회 에러 status:", err.response.status);
+          console.log("프로필 조회 에러 data:", err.response.data);
+        } else console.log("Unexpected error:", err);
+      } finally {
+        setLoadingUsername(false);
       }
     };
-    fetchTemperature();
+    fetchProfile();
   }, []);
+
+  useEffect(() => {
+    const fetchSummaries = async () => {
+      try {
+        const res = await api.get<SummaryResponse>(
+          "/api/emotion-temperature/summary",
+          { params: { month: currentMonth } }
+        );
+        const { monthlyTemperature, dailySummaries } = res.data.data;
+        setTemperatureValue(
+          monthlyTemperature === 0 ? 36.5 : monthlyTemperature
+        );
+        const marks: MarkedDates = {};
+        dailySummaries.forEach(({ date }) => {
+          marks[date] = {
+            startingDay: true,
+            endingDay: true,
+            color: "#F5D85C",
+            textColor: "#000",
+          };
+        });
+        setMarkedDates(marks);
+        setDailySummaries(dailySummaries);
+        setSelectedDate(null);
+      } catch (err) {
+        Alert.alert("오류", `${currentMonth} 데이터를 불러오지 못했습니다.`);
+      }
+    };
+    fetchSummaries();
+  }, [currentMonth]);
+
+  const onMonthChange = ({ year, month }: { year: number; month: number }) => {
+    const m = month < 10 ? `0${month}` : `${month}`;
+    setCurrentMonth(`${year}-${m}`);
+  };
 
   return (
     <View style={styles.container}>
@@ -72,7 +124,9 @@ const History = () => {
           </View>
 
           <View style={styles.temperatureInfo}>
-            <Text style={styles.username}>민주님</Text>
+            <Text style={styles.username}>
+              {loadingUsername ? "로딩 중..." : `${username}님`}
+            </Text>
             <Text style={styles.temperatureLabel}>
               온도{" "}
               {temperatureValue !== null
@@ -90,26 +144,13 @@ const History = () => {
         <Text style={styles.monthlyTitle}>월간기록</Text>
         <View style={styles.calendar}>
           <Calendar
-            current={new Date().toISOString().slice(0, 10)}
+            current={`${currentMonth}-01`}
             markingType="period"
-            markedDates={{
-              "2025-07-01": {
-                startingDay: true,
-                endingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
-              "2025-07-06": {
-                startingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
-              "2025-07-07": { color: "#F5D85C", textColor: "#000" },
-              "2025-07-08": {
-                endingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
+            markedDates={markedDates}
+            onMonthChange={onMonthChange}
+            onDayPress={({ dateString }) => {
+              if (markedDates[dateString]) setSelectedDate(dateString);
+              else setSelectedDate(null);
             }}
             monthFormat="yyyy년 MM월"
             theme={{
@@ -121,6 +162,28 @@ const History = () => {
             }}
           />
         </View>
+        {selectedDate && (
+          <View
+            style={{
+              backgroundColor: "#F5D85C",
+              marginTop: 12,
+              padding: 16,
+              borderRadius: 8,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              {selectedDate.replace(/-/g, ".")}
+            </Text>
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              {dailySummaries.find((d) => d.date === selectedDate)
+                ?.temperature ?? "-"}
+              ℃
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
