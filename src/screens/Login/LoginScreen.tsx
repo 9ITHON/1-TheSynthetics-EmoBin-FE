@@ -6,17 +6,16 @@ import { useAuthStore } from "../../stores/authStore";
 import { styles } from "./LoginScreen.style";
 import type { LoginScreenProps } from "../../types/login";
 import { saveTokens } from "../../utils/tokenStorage";
-import { useTokenStore } from "../../stores/tokenStore"; // 이 줄을 추가합니다.
+import { useTokenStore } from "../../stores/tokenStore";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const profile  = useAuthStore((s) => s.profile);
   const backend  = useAuthStore((s) => s.backend);
-  const [isHydrated, setIsHydrated] = useState(false); // isHydrated 상태 추가
+  const [isHydrated, setIsHydrated] = useState(false);
 
   console.log("[LoginScreen] Rendering with backend:", backend);
   console.log("[LoginScreen] Current TokenStore state:", useTokenStore.getState());
 
-  // Hydration 완료 대기
   useEffect(() => {
     const unsubscribe = useTokenStore.persist.onFinishHydration(() =>
       setIsHydrated(true)
@@ -37,7 +36,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       return;
     }
 
-    // MEMBER_NOT_FOUND 처리
     if (backend.code === "MEMBER_NOT_FOUND") {
       Alert.alert("회원가입 필요");
       navigation.reset({
@@ -47,10 +45,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       return;
     }
 
-    // 로그인 성공 처리 (토큰이 존재하고 MEMBER_NOT_FOUND가 아닌 경우)
     if ("accessToken" in backend && "refreshToken" in backend) {
-      console.log(backend);
-      /* 🔑 토큰 안전 저장 */
       saveTokens(backend.accessToken as string, backend.refreshToken as string)
         .catch(console.warn);
 

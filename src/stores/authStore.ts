@@ -1,4 +1,3 @@
-// src/stores/authStore.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -20,7 +19,7 @@ export interface AuthState {
   backend: BackendLoginData | null;
   setProfile: (p: any) => void;
   setBackend: (b: BackendLoginData | null) => void;
-  logout: () => Promise<void>; // Promise를 반환하도록 변경
+  logout: () => Promise<void>; 
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -30,16 +29,14 @@ export const useAuthStore = create<AuthState>()(
       backend: null,
       setProfile: (p) => set({ profile: p }),
       setBackend: (b) => set({ backend: b }),
-      logout: async () => { // async로 변경
+      logout: async () => { 
         set({ profile: null, backend: null });
-        console.log("[AuthStore] Memory state set to null. Current state:", useAuthStore.getState());
-        await AsyncStorage.removeItem("auth-storage"); // await 추가
-        console.log("[AuthStore] AsyncStorage 'auth-storage' deleted.");
+        await AsyncStorage.removeItem("auth-storage"); 
       },
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(() => AsyncStorage), // 핵심
+      storage: createJSONStorage(() => AsyncStorage), 
     },
   ),
 );

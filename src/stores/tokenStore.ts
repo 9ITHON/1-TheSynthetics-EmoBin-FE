@@ -1,4 +1,3 @@
-// src/stores/tokenStore.ts
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import * as SecureStore from "expo-secure-store";
@@ -11,7 +10,7 @@ type Tokens = {
 
 interface TokenState extends Tokens {
   setTokens:  (a: string, r: string) => void;
-  clear: () => Promise<void>; // Promise를 반환하도록 변경
+  clear: () => Promise<void>; 
 }
 
 export const useTokenStore = create<TokenState>()(
@@ -20,15 +19,13 @@ export const useTokenStore = create<TokenState>()(
       accessToken:  null,
       refreshToken: null,
       setTokens: (a, r) => set({ accessToken: a, refreshToken: r }),
-      clear:     async ()   => { // async로 변경
+      clear:     async ()   => { 
         set({ accessToken: null, refreshToken: null });
-        console.log("[TokenStore] Memory state set to null. Current state:", useTokenStore.getState());
-        await SecureStore.deleteItemAsync("auth-tokens"); // SecureStore에서도 삭제
-        console.log("[TokenStore] SecureStore 'auth-tokens' deleted.");
+        await SecureStore.deleteItemAsync("auth-tokens"); 
       },
     }),
     {
-      name: "auth-tokens",                         // SecureStore key
+      name: "auth-tokens",                       
       storage: createJSONStorage(() => ({
         getItem: SecureStore.getItemAsync,
         setItem: SecureStore.setItemAsync,
@@ -38,7 +35,6 @@ export const useTokenStore = create<TokenState>()(
   )
 );
 
-/* 🔄 토큰 값이 바뀔 때마다 axios 기본 헤더 동기화 */
 useTokenStore.subscribe(({ accessToken }) => {
   if (accessToken)
     axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;

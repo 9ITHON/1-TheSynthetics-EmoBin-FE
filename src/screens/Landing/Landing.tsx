@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { useEffect } from "react";
+import { useTokenStore } from "../../stores/tokenStore";
 import NotificationIcon from "../../../assets/icons/notification.svg";
 import MenuIcon from "../../../assets/icons/menu.svg";
 import Character1 from "../../../assets/images/character1.svg";
@@ -14,6 +15,10 @@ const Landing = () => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
+    // tokenStore에서 accessToken과 refreshToken 가져오기
+    const { accessToken, refreshToken } = useTokenStore.getState();
+    console.log("LOG Landing :", { accessToken, refreshToken });
+
     const timer = setTimeout(() => {
       navigation.navigate("WriteNote");
     }, 4000);
