@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import axios from "axios";
 import api from "../../utils/api";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./History.styles";
@@ -10,6 +11,7 @@ import Avatar from "../../../assets/images/avatar.svg";
 import BackIcon from "../../../assets/icons/back.svg";
 import Thermometer from "../../components/Thermometer/Thermometer";
 import { SummaryResponse } from "../../types/thermometer";
+import { MarkedDates } from "../../types/thermometer";
 
 LocaleConfig.locales["ko"] = {
   monthNames: [...Array(12)].map((_, i) => `${i + 1}월`),
@@ -32,6 +34,32 @@ const History = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [temperatureValue, setTemperatureValue] = useState<number | null>(null);
+  const [username, setUsername] = useState<string>("");
+  const [loadingUsername, setLoadingUsername] = useState<boolean>(true);
+  const [markedDates, setMarkedDates] = useState<MarkedDates>({});
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get<{
+          code: string;
+          data?: { nickname: string };
+          nickname?: string;
+        }>("/api/member/me");
+        const nickname = res.data.data?.nickname ?? (res.data as any).nickname;
+        if (nickname) setUsername(nickname);
+        else console.warn("프로필 응답에서 nickname을 찾을 수 없습니다.");
+      } catch (err: any) {
+        if (axios.isAxiosError(err) && err.response) {
+          console.log("프로필 조회 에러 status:", err.response.status);
+          console.log("프로필 조회 에러 data:", err.response.data);
+        } else console.log("Unexpected error:", err);
+      } finally {
+        setLoadingUsername(false);
+      }
+    };
+    fetchProfile();
+  }, []);
 
   useEffect(() => {
     const fetchTemperature = async () => {
@@ -42,8 +70,20 @@ const History = () => {
           "/api/emotion-temperature/summary",
           { params: { month } }
         );
-        const value = response.data.data.monthlyTemperature;
-        setTemperatureValue(value === 0.0 ? 36.5 : value);
+        const { monthlyTemperature, dailySummaries } = response.data.data;
+        setTemperatureValue(
+          monthlyTemperature === 0 ? 36.5 : monthlyTemperature
+        );
+        const marks: MarkedDates = {};
+        dailySummaries.forEach(({ date }) => {
+          marks[date] = {
+            startingDay: true,
+            endingDay: true,
+            color: "#F5D85C",
+            textColor: "#000",
+          };
+        });
+        setMarkedDates(marks);
       } catch (error: any) {
         Alert.alert("오류", "감정 온도 정보를 불러오지 못했어요.");
       }
@@ -72,7 +112,9 @@ const History = () => {
           </View>
 
           <View style={styles.temperatureInfo}>
-            <Text style={styles.username}>민주님</Text>
+            <Text style={styles.username}>
+              {loadingUsername ? "로딩 중..." : `${username}님`}
+            </Text>
             <Text style={styles.temperatureLabel}>
               온도{" "}
               {temperatureValue !== null
@@ -92,25 +134,7 @@ const History = () => {
           <Calendar
             current={new Date().toISOString().slice(0, 10)}
             markingType="period"
-            markedDates={{
-              "2025-07-01": {
-                startingDay: true,
-                endingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
-              "2025-07-06": {
-                startingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
-              "2025-07-07": { color: "#F5D85C", textColor: "#000" },
-              "2025-07-08": {
-                endingDay: true,
-                color: "#F5D85C",
-                textColor: "#000",
-              },
-            }}
+            markedDates={markedDates}
             monthFormat="yyyy년 MM월"
             theme={{
               todayTextColor: "#F5B500",
