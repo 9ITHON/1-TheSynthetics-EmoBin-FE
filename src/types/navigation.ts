@@ -10,8 +10,8 @@ export type RootStackParamList = {
   HelpCenter: undefined;
   Landing: undefined;
   WriteNote: undefined;
-  Processing: undefined;
-  EmotionResult: undefined;
+  Processing: { noteText: string };
+  EmotionResult: { result: any };
   History: undefined;
   FirstLogin: undefined;
 };
