@@ -1,5 +1,5 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { KakaoProfile } from "../stores/authStore";
+import { KakaoProfile } from "./auth";
 
 export type RootStackParamList = {
   Login: { profile?: KakaoProfile } | undefined;

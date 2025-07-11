@@ -19,12 +19,6 @@ const LoginSuccessScreen = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace("Landing");
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

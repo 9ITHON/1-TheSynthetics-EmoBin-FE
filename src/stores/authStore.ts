@@ -1,17 +1,34 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { BackendLoginData } from '../types/auth';
 
-import { AuthState } from "../types/auth";
+export interface AuthState {
+  profile: any | null;
+  backend: BackendLoginData | null;
+  setProfile: (p: any) => void;
+  setBackend: (b: BackendLoginData | null) => void;
+  logout: () => Promise<void>; 
+}
 
-export const useAuthStore = create<AuthState>()(
+
+const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       profile: null,
+      backend: null,
       setProfile: (p) => set({ profile: p }),
-      logout: () => set({ profile: null }),
+      setBackend: (b) => set({ backend: b }),
+      logout: async () => { 
+        set({ profile: null, backend: null });
+        await AsyncStorage.removeItem("auth-storage"); 
+      },
     }),
     {
-      name: "auth",
-    }
-  )
+      name: 'auth-storage',
+      storage: createJSONStorage(() => AsyncStorage), 
+    },
+  ),
 );
+
+export {useAuthStore};

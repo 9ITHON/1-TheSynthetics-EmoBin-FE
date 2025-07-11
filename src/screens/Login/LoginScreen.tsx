@@ -1,28 +1,63 @@
-import React, { useEffect } from "react";
-import { View, Image, StyleSheet, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Image, Alert } from "react-native";
 import Button from "../../components/Button";
 import { useAuthStore } from "../../stores/authStore";
-import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./LoginScreen.style";
 import type { LoginScreenProps } from "../../types/login";
+import { saveTokens } from "../../utils/tokenStorage";
+import { useTokenStore } from "../../stores/tokenStore";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  const profile = useAuthStore((s) => s.profile);
+  const profile  = useAuthStore((s) => s.profile);
+  const backend  = useAuthStore((s) => s.backend);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  console.log("[LoginScreen] Current TokenStore state:", useTokenStore.getState());
 
   useEffect(() => {
-    if (profile) {
-      console.log("[Login] profile 전달 완료:", profile);
+    const unsubscribe = useTokenStore.persist.onFinishHydration(() =>
+      setIsHydrated(true)
+    );
+
+    if (useTokenStore.persist.hasHydrated()) {
+      setIsHydrated(true);
+    }
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    if (!backend || !profile) {
+      return;
+    }
+
+    if (backend.code === "MEMBER_NOT_FOUND") {
+      Alert.alert("회원가입 필요");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "FirstLogin" }],
+      });
+      return;
+    }
+
+    if ("accessToken" in backend && "refreshToken" in backend) {
+      saveTokens(backend.accessToken as string, backend.refreshToken as string)
+        .catch(console.warn);
+
       Alert.alert(
         "로그인 성공",
         `환영합니다, ${profile.profile?.nickname || "사용자"}님!`
       );
       navigation.reset({
         index: 0,
-        routes: [{ name: "LoginSuccess" }],
+        routes: [{ name: "Landing" }],
       });
+      return;
     }
-  }, [profile, navigation]);
+
+  }, [backend, profile, navigation, isHydrated]);
 
   const handleKakaoLogin = () => navigation.navigate("KakaoLoginWebview");
 

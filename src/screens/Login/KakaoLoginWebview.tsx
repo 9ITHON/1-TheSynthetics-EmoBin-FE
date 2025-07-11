@@ -7,11 +7,14 @@ import {
   REDIRECT_URI,
   AUTH_URL,
 } from "../../api/KakaoLogin/kakao_api";
-import { useAuthStore } from "../../stores/authStore";
-import { Props } from "../../types/webview";
+import { memberCheck }        from "../../api/member_check_api";
+import { useAuthStore }       from "../../stores/authStore";
+import { Props }              from "../../types/webview";
 
 const KakaoLoginWebview = ({ navigation }: Props) => {
   const webRef = useRef<WebView>(null);
+
+  const { setProfile, setBackend } = useAuthStore.getState();
 
   const onNavChange = async ({ url }: { url: string }) => {
     if (!url.startsWith(REDIRECT_URI)) return;
@@ -22,19 +25,19 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
     webRef.current?.stopLoading();
 
     try {
-      const token = await exchangeKakaoToken(code);
-      const { access_token } = token;
-
-      const kakaoProfile = await fetchKakaoProfile(access_token);
-
-      useAuthStore.getState().setProfile(kakaoProfile);
-
-      navigation.replace("Login", { profile: kakaoProfile });
+      const { access_token } = await exchangeKakaoToken(code);
+      const kakaoProfile     = await fetchKakaoProfile(access_token);
+      setProfile(kakaoProfile);
 
       console.log("[Kakao] access_token:", access_token);
       console.log("[Kakao] profile:", kakaoProfile);
+
+      const backend = await memberCheck(access_token);
+      setBackend(backend);
+
+      navigation.replace("Login", { profile: kakaoProfile });
     } catch (e) {
-      console.warn("카카오 토큰 교환 실패", e);
+      console.warn("카카오 로그인 처리 실패", e);
       navigation.goBack();
     }
   };
