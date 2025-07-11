@@ -1,9 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import { styles } from "../Thermometer/Thermometer.style";
-
-interface ThermometerProps {
-  temperature: number;
-}
+import { ThermometerProps } from "../../types/thermometer";
 
 const Thermometer = ({ temperature }: ThermometerProps) => {
   const clampTemp = Math.max(0, Math.min(temperature, 100));
