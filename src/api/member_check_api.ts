@@ -3,7 +3,7 @@ import { useTokenStore } from "../stores/tokenStore";
 import { MemberCheckResponse } from "../types/member_check";
 
 
-export const memberCheck = async (
+const memberCheck = async (
   code: string
 ): Promise<MemberCheckResponse> => {
   const { data } = await api.post<MemberCheckResponse>(
@@ -20,3 +20,5 @@ export const memberCheck = async (
 
   return data;
 };
+
+export { memberCheck };
