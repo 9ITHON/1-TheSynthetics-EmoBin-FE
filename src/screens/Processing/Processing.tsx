@@ -9,7 +9,8 @@ import Character2 from "../../../assets/images/character2.svg";
 import Shadow from "../../../assets/images/shadow.svg";
 
 const API_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoIiwianRpIjoiZGM0MThhNTUtOTMzYS00NzIzLWEwOTEtNTMzZjdjNDkzYjA1IiwibWVtYmVySWQiOjEsImlhdCI6MTc1MjEyNjc2NSwiZXhwIjoxNzUzMzM2MzY1fQ.iEeDeYKV8asZJW_PVk_n_BBgF7R3wJ-o3gH95d8CcFA";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MiLCJqdGkiOiJiZWQyYTE2ZC0wZjY3LTRiMjQtODFjZi1lNTA4Y2NlMWVmNTQiLCJtZW1iZXJJZCI6MSwiaWF0IjoxNzUyMjA3NzUxLCJleHAiOjE3NTIyMDk1NTF9.6ohAaxREzfd0DsSj-3lq_ac1NAPF1PDft30Z1nPqrvc";
+
 const BASE_URL = "http://52.64.128.49:8080";
 
 const Processing = () => {
@@ -35,7 +36,6 @@ const Processing = () => {
         const result = response.data;
         navigation.replace("EmotionResult", { result });
       } catch (error: any) {
-        console.error("분석 실패:", error);
         Alert.alert(
           "분석에 실패했습니다",
           error?.response?.data?.message || "알 수 없는 오류"

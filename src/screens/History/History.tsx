@@ -28,7 +28,7 @@ LocaleConfig.locales["ko"] = {
 LocaleConfig.defaultLocale = "ko";
 
 const API_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZWZyZXNoIiwianRpIjoiZGM0MThhNTUtOTMzYS00NzIzLWEwOTEtNTMzZjdjNDkzYjA1IiwibWVtYmVySWQiOjEsImlhdCI6MTc1MjEyNjc2NSwiZXhwIjoxNzUzMzM2MzY1fQ.iEeDeYKV8asZJW_PVk_n_BBgF7R3wJ-o3gH95d8CcFA";
+  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MiLCJqdGkiOiJiZWQyYTE2ZC0wZjY3LTRiMjQtODFjZi1lNTA4Y2NlMWVmNTQiLCJtZW1iZXJJZCI6MSwiaWF0IjoxNzUyMjA3NzUxLCJleHAiOjE3NTIyMDk1NTF9.6ohAaxREzfd0DsSj-3lq_ac1NAPF1PDft30Z1nPqrvc";
 const BASE_URL = "http://52.64.128.49:8080";
 
 const History = () => {
@@ -54,9 +54,8 @@ const History = () => {
         );
 
         const value = response.data?.data?.monthlyTemperature;
-        setTemperatureValue(value);
+        setTemperatureValue(value === 0.0 ? 36.5 : value);
       } catch (error: any) {
-        console.error("감정 온도 조회 실패", error);
         Alert.alert("오류", "감정 온도 정보를 불러오지 못했어요.");
       }
     };
