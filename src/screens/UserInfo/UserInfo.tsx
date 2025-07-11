@@ -17,6 +17,12 @@ import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
 import ForwardIcon from "../../../assets/icons/forward.svg";
 import { RootStackParamList } from "../../types/navigation";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal"; 
+import logoutApi from "../../api/Logout_api"; 
+import withdrawalApi from "../../api/Deletemember_api"; 
+import { useAuthStore } from "../../stores/authStore"; 
+import { useTokenStore } from "../../stores/tokenStore"; 
+import { clearTokens as clearSecureStoreTokens } from "../../utils/tokenStorage"; 
 
 const UserInfo = () => {
   const navigation =
@@ -26,6 +32,14 @@ const UserInfo = () => {
   const [birthDate, setBirthDate] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [isLogoutModalVisible, setLogoutModalVisible] = useState<boolean>(false);
+  const [isWithdrawalModalVisible, setWithdrawalModalVisible] = useState<boolean>(false);
+
+  const authStoreLogout = useAuthStore((state) => state.logout);
+  const { refreshToken } = useTokenStore.getState();
+  const clearTokenStore = useTokenStore((state) => state.clear);
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -65,6 +79,50 @@ const UserInfo = () => {
       Alert.alert("알림", "닉네임이 성공적으로 변경되었습니다.");
     } catch (err: any) {
       Alert.alert("오류", "닉네임 수정에 실패했습니다.");
+    }
+  };
+
+  const handleLogout = async () => {
+    setLogoutModalVisible(false);
+    if (!refreshToken) {
+      Alert.alert("오류", "로그아웃에 필요한 정보가 없습니다.");
+      return;
+    }
+    try {
+      await logoutApi(refreshToken);
+      await authStoreLogout(); 
+      await clearTokenStore(); 
+      await clearSecureStoreTokens(); 
+      Alert.alert("알림", "로그아웃 되었습니다.");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      Alert.alert("오류", "로그아웃에 실패했습니다.");
+    }
+  };
+
+  const handleWithdrawal = async () => {
+    setWithdrawalModalVisible(false);
+    if (!refreshToken) {
+      Alert.alert("오류", "회원 탈퇴에 필요한 정보가 없습니다.");
+      return;
+    }
+    try {
+      await withdrawalApi(refreshToken);
+      await authStoreLogout(); 
+      await clearTokenStore(); 
+      await clearSecureStoreTokens(); 
+      Alert.alert("알림", "회원 탈퇴가 완료되었습니다.");
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "Login" }],
+      });
+    } catch (error) {
+      console.error("회원 탈퇴 실패:", error);
+      Alert.alert("오류", "회원 탈퇴에 실패했습니다.");
     }
   };
 
@@ -151,8 +209,32 @@ const UserInfo = () => {
       </View>
 
       <View style={styles.logoutSection}>
-        <Text style={styles.logoutText}>로그아웃 | 회원탈퇴</Text>
+        <TouchableOpacity onPress={() => setLogoutModalVisible(true)}>
+          <Text style={styles.logoutText}>로그아웃</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.logoutText}>|</Text>
+
+        <TouchableOpacity onPress={() => setWithdrawalModalVisible(true)}>
+          <Text style={styles.logoutText}>회원탈퇴</Text>
+        </TouchableOpacity>
       </View>
+
+      <ConfirmationModal
+        isVisible={isLogoutModalVisible}
+        onClose={() => setLogoutModalVisible(false)}
+        title="로그아웃"
+        message="로그아웃 하시겠습니까?"
+        onConfirm={handleLogout}
+      />
+
+      <ConfirmationModal
+        isVisible={isWithdrawalModalVisible}
+        onClose={() => setWithdrawalModalVisible(false)}
+        title="회원 탈퇴"
+        message="회원탈퇴 하시겠습니까?"
+        onConfirm={handleWithdrawal}
+      />
     </View>
   );
 };
