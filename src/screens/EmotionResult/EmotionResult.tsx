@@ -1,20 +1,27 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./EmotionResult.styles";
-
 import Character1 from "../../../assets/images/character1.svg";
 import Shadow from "../../../assets/images/shadow.svg";
+import { AnalysisData } from "../../types/analysis";
 
 const EmotionResult = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<{ params: { result?: AnalysisData } }>();
+  const result = route.params?.result;
 
-  const route = useRoute<any>();
-  const { result } = route.params;
-  const { nickname, emotion, causes, message } = result.data;
+  if (!result) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>결과를 불러올 수 없습니다.</Text>
+      </View>
+    );
+  }
+
+  const { nickname, emotion, causes, message } = result;
 
   return (
     <View style={styles.container}>
@@ -28,7 +35,7 @@ const EmotionResult = () => {
       <Text style={styles.emotion}>{emotion}</Text>
 
       <View style={styles.tagsContainer}>
-        {causes.map((tag: string, index: number) => (
+        {causes.map((tag, index) => (
           <Text key={index} style={styles.tag}>
             <Text style={styles.tagHash}>#</Text>
             <Text style={styles.tagText}> {tag}</Text>
@@ -38,8 +45,8 @@ const EmotionResult = () => {
 
       <View style={styles.analysisBox}>
         <Text style={styles.analysisText}>
-          {message.split("\n").map((line, index) => (
-            <Text key={index}>
+          {message.split("\n").map((line, idx) => (
+            <Text key={idx}>
               {line}
               {"\n"}
             </Text>

@@ -4,14 +4,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/navigation";
 import { styles } from "./Processing.styles";
 import { useEffect } from "react";
-import axios from "axios";
+import api from "../../utils/api";
 import Character2 from "../../../assets/images/character2.svg";
 import Shadow from "../../../assets/images/shadow.svg";
-
-const API_TOKEN =
-  "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhY2Nlc3MiLCJqdGkiOiJiZWQyYTE2ZC0wZjY3LTRiMjQtODFjZi1lNTA4Y2NlMWVmNTQiLCJtZW1iZXJJZCI6MSwiaWF0IjoxNzUyMjA3NzUxLCJleHAiOjE3NTIyMDk1NTF9.6ohAaxREzfd0DsSj-3lq_ac1NAPF1PDft30Z1nPqrvc";
-
-const BASE_URL = "http://52.64.128.49:8080";
+import { AnalysisResponse } from "../../types/analysis";
 
 const Processing = () => {
   const navigation =
@@ -22,18 +18,11 @@ const Processing = () => {
   useEffect(() => {
     const analyze = async () => {
       try {
-        const response = await axios.post(
-          `${BASE_URL}/api/analysis`,
-          { text: noteText },
-          {
-            headers: {
-              Authorization: `Bearer ${API_TOKEN}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await api.post<AnalysisResponse>("/api/analysis", {
+          text: noteText,
+        });
 
-        const result = response.data;
+        const result = response.data.data;
         navigation.replace("EmotionResult", { result });
       } catch (error: any) {
         Alert.alert(
