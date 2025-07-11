@@ -33,6 +33,9 @@ LocaleConfig.defaultLocale = "ko";
 const History = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [currentMonth, setCurrentMonth] = useState<string>(
+    new Date().toISOString().slice(0, 7)
+  );
   const [temperatureValue, setTemperatureValue] = useState<number | null>(null);
   const [username, setUsername] = useState<string>("");
   const [loadingUsername, setLoadingUsername] = useState<boolean>(true);
@@ -62,15 +65,13 @@ const History = () => {
   }, []);
 
   useEffect(() => {
-    const fetchTemperature = async () => {
+    const fetchSummaries = async () => {
       try {
-        const now = new Date();
-        const month = now.toISOString().slice(0, 7);
-        const response = await api.get<SummaryResponse>(
+        const res = await api.get<SummaryResponse>(
           "/api/emotion-temperature/summary",
-          { params: { month } }
+          { params: { month: currentMonth } }
         );
-        const { monthlyTemperature, dailySummaries } = response.data.data;
+        const { monthlyTemperature, dailySummaries } = res.data.data;
         setTemperatureValue(
           monthlyTemperature === 0 ? 36.5 : monthlyTemperature
         );
@@ -84,12 +85,17 @@ const History = () => {
           };
         });
         setMarkedDates(marks);
-      } catch (error: any) {
-        Alert.alert("오류", "감정 온도 정보를 불러오지 못했어요.");
+      } catch (err) {
+        Alert.alert("오류", `${currentMonth} 데이터를 불러오지 못했습니다.`);
       }
     };
-    fetchTemperature();
-  }, []);
+    fetchSummaries();
+  }, [currentMonth]);
+
+  const onMonthChange = ({ year, month }: { year: number; month: number }) => {
+    const m = month < 10 ? `0${month}` : `${month}`;
+    setCurrentMonth(`${year}-${m}`);
+  };
 
   return (
     <View style={styles.container}>
@@ -132,9 +138,10 @@ const History = () => {
         <Text style={styles.monthlyTitle}>월간기록</Text>
         <View style={styles.calendar}>
           <Calendar
-            current={new Date().toISOString().slice(0, 10)}
+            current={`${currentMonth}-01`}
             markingType="period"
             markedDates={markedDates}
+            onMonthChange={onMonthChange}
             monthFormat="yyyy년 MM월"
             theme={{
               todayTextColor: "#F5B500",
