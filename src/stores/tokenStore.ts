@@ -10,7 +10,11 @@ const useTokenStore = create<TokenState>()(
     (set) => ({
       accessToken:  null,
       refreshToken: null,
-      setTokens: (a, r) => set({ accessToken: a, refreshToken: r }),
+      setTokens: (a, r) => set((state) => ({
+        ...state,
+        ...(a && { accessToken: a }),
+        ...(r && { refreshToken: r }),
+      })),
       clear:     async ()   => { 
         set({ accessToken: null, refreshToken: null });
         await SecureStore.deleteItemAsync("auth-tokens"); 
