@@ -40,6 +40,10 @@ const History = () => {
   const [username, setUsername] = useState<string>("");
   const [loadingUsername, setLoadingUsername] = useState<boolean>(true);
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
+  const [dailySummaries, setDailySummaries] = useState<
+    { date: string; temperature: number }[]
+  >([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -85,6 +89,8 @@ const History = () => {
           };
         });
         setMarkedDates(marks);
+        setDailySummaries(dailySummaries);
+        setSelectedDate(null);
       } catch (err) {
         Alert.alert("오류", `${currentMonth} 데이터를 불러오지 못했습니다.`);
       }
@@ -142,6 +148,10 @@ const History = () => {
             markingType="period"
             markedDates={markedDates}
             onMonthChange={onMonthChange}
+            onDayPress={({ dateString }) => {
+              if (markedDates[dateString]) setSelectedDate(dateString);
+              else setSelectedDate(null);
+            }}
             monthFormat="yyyy년 MM월"
             theme={{
               todayTextColor: "#F5B500",
@@ -152,6 +162,28 @@ const History = () => {
             }}
           />
         </View>
+        {selectedDate && (
+          <View
+            style={{
+              backgroundColor: "#F5D85C",
+              marginTop: 12,
+              padding: 16,
+              borderRadius: 8,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              {selectedDate.replace(/-/g, ".")}
+            </Text>
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+              {dailySummaries.find((d) => d.date === selectedDate)
+                ?.temperature ?? "-"}
+              ℃
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );
