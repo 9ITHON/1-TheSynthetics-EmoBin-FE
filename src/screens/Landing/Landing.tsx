@@ -15,7 +15,6 @@ const Landing = () => {
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
-    // tokenStore에서 accessToken과 refreshToken 가져오기
     const { accessToken, refreshToken } = useTokenStore.getState();
     console.log("LOG Landing :", { accessToken, refreshToken });
 

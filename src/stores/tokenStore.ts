@@ -2,18 +2,10 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import { TokenState } from "../types/token";
 
-type Tokens = {
-  accessToken:  string | null;
-  refreshToken: string | null;
-};
 
-interface TokenState extends Tokens {
-  setTokens:  (a: string, r: string) => void;
-  clear: () => Promise<void>; 
-}
-
-export const useTokenStore = create<TokenState>()(
+const useTokenStore = create<TokenState>()(
   persist(
     (set) => ({
       accessToken:  null,
@@ -41,3 +33,5 @@ useTokenStore.subscribe(({ accessToken }) => {
   else
     delete axios.defaults.headers.common.Authorization;
 });
+
+export { useTokenStore };

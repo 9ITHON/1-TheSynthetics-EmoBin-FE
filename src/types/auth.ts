@@ -14,3 +14,16 @@ export interface AuthState {
   setProfile: (p: KakaoProfile) => void;
   logout: () => void;
 }
+
+export interface BackendUserData {
+  oauthId: number;
+  oauthProvider: 'KAKAO' | 'APPLE' | string;
+  nickname?: string;
+}
+
+export interface BackendLoginData {
+  code: string;
+  data: BackendUserData;
+  message: string;
+}
+

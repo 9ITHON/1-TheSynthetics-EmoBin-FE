@@ -1,18 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-
-export interface BackendUserData {
-  oauthId: number;
-  oauthProvider: 'KAKAO' | 'APPLE' | string;
-  nickname?: string;
-}
-
-export interface BackendLoginData {
-  code: string;
-  data: BackendUserData;
-  message: string;
-}
+import { BackendLoginData } from '../types/auth';
 
 export interface AuthState {
   profile: any | null;
@@ -22,7 +11,8 @@ export interface AuthState {
   logout: () => Promise<void>; 
 }
 
-export const useAuthStore = create<AuthState>()(
+
+const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       profile: null,
@@ -40,3 +30,5 @@ export const useAuthStore = create<AuthState>()(
     },
   ),
 );
+
+export {useAuthStore};

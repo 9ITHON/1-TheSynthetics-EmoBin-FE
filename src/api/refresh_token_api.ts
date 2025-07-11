@@ -1,18 +1,9 @@
 import api from "../utils/api";
+import { RefreshResponse } from "../types/refresh";
 
-export interface RefreshPayload {
-  refreshToken: string;
-}
-
-export interface RefreshResponse {
-  accessToken:  string;
-  refreshToken: string;
-}
-
-export const refreshTokenApi = async (
+const refreshTokenApi = async (
   refreshToken: string
 ): Promise<RefreshResponse> => {
-  console.log("Sending refreshToken:", refreshToken);
   try {
     const requestConfig = {
       url: "http://52.64.128.49:8080/auth/refresh",
@@ -33,3 +24,5 @@ export const refreshTokenApi = async (
     throw error; 
   }
 };
+
+export { refreshTokenApi };

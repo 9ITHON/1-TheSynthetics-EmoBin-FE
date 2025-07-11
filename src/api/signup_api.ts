@@ -1,21 +1,9 @@
 import api from "../utils/api";          
 import { useTokenStore } from "../stores/tokenStore";
+import { SignUpPayload } from "../types/signup";
+import { SignUpResponse } from "../types/signup";
 
-export interface SignUpPayload {
-  oauthId: number;
-  oauthProvider: string;
-  nickname: string;
-  birthdate: string;
-  gender: "MALE" | "FEMALE";
-}
-
-export interface SignUpResponse {
-  accessToken:  string;
-  refreshToken: string;
-  memberId:     number;   
-}
-
-export const signUp = async (
+const signUp = async (
   payload: SignUpPayload
 ): Promise<SignUpResponse> => {
   const { data } = await api.post<SignUpResponse>(
@@ -27,3 +15,5 @@ export const signUp = async (
   useTokenStore.getState().setTokens(data.accessToken, data.refreshToken);
   return data;
 };
+
+export { signUp };

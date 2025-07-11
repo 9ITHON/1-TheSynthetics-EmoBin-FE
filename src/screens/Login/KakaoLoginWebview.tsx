@@ -34,7 +34,6 @@ const KakaoLoginWebview = ({ navigation }: Props) => {
 
       const backend = await memberCheck(access_token);
       setBackend(backend);
-      console.log("[Backend] saved:", backend);
 
       navigation.replace("Login", { profile: kakaoProfile });
     } catch (e) {

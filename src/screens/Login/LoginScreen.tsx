@@ -1,4 +1,3 @@
-// src/screens/Login/LoginScreen.tsx
 import React, { useEffect, useState } from "react";
 import { View, Image, Alert } from "react-native";
 import Button from "../../components/Button";
@@ -13,7 +12,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const backend  = useAuthStore((s) => s.backend);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  console.log("[LoginScreen] Rendering with backend:", backend);
   console.log("[LoginScreen] Current TokenStore state:", useTokenStore.getState());
 
   useEffect(() => {
@@ -32,7 +30,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     if (!isHydrated) return;
 
     if (!backend || !profile) {
-      console.log("[LoginScreen] Backend or profile is null, staying on Login screen.");
       return;
     }
 

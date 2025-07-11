@@ -9,7 +9,6 @@ const api = axios.create({
   timeout: 10_000,
 });
 
-/* 요청마다 accessToken 주입 */
 api.interceptors.request.use((config) => {
   if (config._isRefreshRequest) {
     return config;
@@ -22,13 +21,12 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-/* 401/403 → refresh 재발급 */
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     console.log("API Interceptor Error Handler entered:", error);
     const original = error.config;
-    if (error.response?.status === 401 || error.response?.status === 403 || error.response?.status === 500) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       if (!original._retry && !original._isRefreshRequest) {
         original._retry = true;
 

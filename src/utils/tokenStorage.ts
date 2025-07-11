@@ -10,7 +10,7 @@ const ANDROID_OPTIONS: SecureStore.SecureStoreOptions = {
 };
 
 
-export const saveTokens = async (
+const saveTokens = async (
   accessToken: string,
   refreshToken: string
 ) => {
@@ -28,14 +28,16 @@ export const saveTokens = async (
 };
 
 
-export const loadTokens = async () => {
+const loadTokens = async () => {
   const accessToken  = await SecureStore.getItemAsync(ACCESS_KEY);
   const refreshToken = await SecureStore.getItemAsync(REFRESH_KEY);
   return { accessToken, refreshToken };
 };
 
 
-export const clearTokens = async () => {
+const clearTokens = async () => {
   await SecureStore.deleteItemAsync(ACCESS_KEY);
   await SecureStore.deleteItemAsync(REFRESH_KEY);
 };
+
+export { saveTokens, loadTokens, clearTokens };

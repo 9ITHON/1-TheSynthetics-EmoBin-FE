@@ -14,3 +14,17 @@ export interface SignupState {
   setDay:     (v: number | '') => void;
   reset: () => void;
 }
+
+export interface SignUpPayload {
+  oauthId: number;
+  oauthProvider: string;
+  nickname: string;
+  birthdate: string;
+  gender: "MALE" | "FEMALE";
+}
+
+export interface SignUpResponse {
+  accessToken:  string;
+  refreshToken: string;
+  memberId:     number;   
+}
