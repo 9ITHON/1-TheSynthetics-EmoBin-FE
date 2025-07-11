@@ -13,7 +13,6 @@ import Thermometer from "../../components/Thermometer/Thermometer";
 import { SummaryResponse } from "../../types/thermometer";
 import { MarkedDates } from "../../types/thermometer";
 
-// 한국어 로케일 설정
 LocaleConfig.locales["ko"] = {
   monthNames: [...Array(12)].map((_, i) => `${i + 1}월`),
   monthNamesShort: [...Array(12)].map((_, i) => `${i + 1}월`),
@@ -46,7 +45,6 @@ const History = () => {
   >([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  // 온도별 마킹 색상 (16.5도 기준, 8도 간격)
   const getMarkColor = (temp: number): string => {
     if (temp < 16.5) return "#84AFD5";
     if (temp < 24.5) return "#BE86B8";
