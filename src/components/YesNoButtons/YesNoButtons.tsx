@@ -5,12 +5,12 @@ import { styles } from './YesNoButtons.styles';
 import { YesNoButtonsProps } from '../../types/button';
 
 
-const YesNoButtons: React.FC<YesNoButtonsProps> = ({
+const YesNoButtons = ({
   onYes,
   onNo,
   yesText = '확인',
   noText = '취소',
-}) => {
+}: YesNoButtonsProps) => {
   return (
     <View style={styles.container}>
       <Button text={yesText} onPress={onYes} style={styles.yesButton} />

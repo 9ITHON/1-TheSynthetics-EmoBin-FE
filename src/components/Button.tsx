@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, Image } from "react-native";
 import { ButtonProps } from "../types/button";
 import { styles } from "./Button.style";
 
-const Button: React.FC<ButtonProps> = ({ text, onPress, iconSource, style }) => (
+const Button = ({ text, onPress, iconSource, style }: ButtonProps) => (
   <TouchableOpacity style={[styles.kakaoButton, style]} onPress={onPress}>
     {iconSource && (
       <Image

@@ -12,7 +12,7 @@ import CloseIcon from '../../../assets/icons/back.svg';
 import { ConfirmationModalProps } from '../../types/modal';
 
 
-const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
+const ConfirmationModal = ({
   isVisible,
   onClose,
   title,
@@ -20,7 +20,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   confirmText = '확인',
   cancelText = '취소',
-}) => {
+}: ConfirmationModalProps) => {
   return (
     <Modal
       animationType="fade"
