@@ -18,7 +18,7 @@ import { useTokenStore } from "../../stores/tokenStore";
 import { RecommendRouteProp } from "../../types/recommend";
 import { Movie } from "../../types/recommend";
 
-export const Recommend = () => {
+const Recommend = () => {
   const route = useRoute<RecommendRouteProp>();
   const { emotion, message } = route.params;
 

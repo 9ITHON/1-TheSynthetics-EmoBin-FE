@@ -16,13 +16,7 @@ import Landing from "./src/screens/Landing/Landing";
 import WriteNote from "./src/screens/WriteNote/WriteNote";
 import Processing from "./src/screens/Processing/Processing";
 import EmotionResult from "./src/screens/EmotionResult/EmotionResult";
-import History from "./src/screens/History/History";
 import Navigation from "./src/screens/Nav/Navigation";
-import MyPage from "./src/screens/MyPage/MyPage";
-import UserInfo from "./src/screens/UserInfo/UserInfo";
-import Notice from "./src/screens/Notice/Notice";
-import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
-import Recommend from "./src/screens/Recommend/Recommend";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -112,17 +106,12 @@ export default function App() {
         />
         <Stack.Screen name="LoginSuccess" component={LoginSuccessScreen} />
         <Stack.Screen name="FirstLogin" component={FirstLogin} />
-
         <Stack.Screen name="Landing" component={Landing} />
         <Stack.Screen name="WriteNote" component={WriteNote} />
         <Stack.Screen name="Processing" component={Processing} />
         <Stack.Screen name="EmotionResult" component={EmotionResult} />
-        <Stack.Screen name="History" component={Navigation} />
-        <Stack.Screen name="MyPage" component={Navigation} />
-        <Stack.Screen name="UserInfo" component={UserInfo} />
-        <Stack.Screen name="Notice" component={Notice} />
-        <Stack.Screen name="HelpCenter" component={HelpCenter} />
-        <Stack.Screen name="Recommend" component={Navigation} />
+
+        <Stack.Screen name="MainTabs" component={Navigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

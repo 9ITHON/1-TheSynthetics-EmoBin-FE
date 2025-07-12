@@ -1,17 +1,17 @@
+import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../types/navigation";
+
 import { styles } from "./EmotionResult.styles";
 import Character1 from "../../../assets/images/character1.svg";
 import Shadow from "../../../assets/images/shadow.svg";
-import { AnalysisData } from "../../types/analysis";
+import type { AnalysisData } from "../../types/analysis";
+import { EmotionResultNavProp } from "../../types/emotionResult";
 
 const EmotionResult = () => {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const route = useRoute<{ params: { result?: AnalysisData } }>();
-  const result = route.params?.result;
+  const navigation = useNavigation<EmotionResultNavProp>();
+  const route = useRoute<EmotionResultNavProp>();
+  const result = route.params?.result as AnalysisData;
 
   if (!result) {
     return (
@@ -35,8 +35,8 @@ const EmotionResult = () => {
       <Text style={styles.emotion}>{emotion}</Text>
 
       <View style={styles.tagsContainer}>
-        {causes.map((tag, index) => (
-          <Text key={index} style={styles.tag}>
+        {causes.map((tag, idx) => (
+          <Text key={idx} style={styles.tag}>
             <Text style={styles.tagHash}>#</Text>
             <Text style={styles.tagText}> {tag}</Text>
           </Text>
@@ -55,7 +55,15 @@ const EmotionResult = () => {
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate("Recommend", { emotion, message })}
+        onPress={() =>
+          navigation.navigate("MainTabs", {
+            screen: "History",
+            params: {
+              screen: "Recommend",
+              params: { emotion, message },
+            },
+          })
+        }
       >
         <Text style={styles.recommendation}>맞춤 추천 리스트 보기</Text>
       </TouchableOpacity>
