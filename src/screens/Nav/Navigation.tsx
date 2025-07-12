@@ -1,18 +1,32 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Landing from "../Landing/Landing";
 import History from "../History/History";
-import { styles, tabStyles } from "./Navigation.styles";
-import { NavParamList } from "../../types/navigation";
-import HistoryIcon from "../../../assets/icons/history.svg";
-import MyPageIcon from "../../../assets/icons/my.svg";
-import HomeIcon from "../../../assets/icons/emobin.svg";
+import Recommend from "../Recommend/Recommend";
 import MyPage from "../MyPage/MyPage";
+import { styles, tabStyles } from "./Navigation.styles";
+import HistoryIcon from "../../../assets/icons/history.svg";
+import HomeIcon from "../../../assets/icons/emobin.svg";
+import MyPageIcon from "../../../assets/icons/my.svg";
+
+import type {
+  NavParamList,
+  HistoryStackParamList,
+} from "../../types/navigation";
 
 const Tab = createBottomTabNavigator<NavParamList>();
+const HistoryStack = createNativeStackNavigator<HistoryStackParamList>();
 
-const Navigator = () => {
+function HistoryStackNav() {
+  return (
+    <HistoryStack.Navigator screenOptions={{ headerShown: false }}>
+      <HistoryStack.Screen name="HistoryMain" component={History} />
+      <HistoryStack.Screen name="Recommend" component={Recommend} />
+    </HistoryStack.Navigator>
+  );
+}
+
+export default function Navigation() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -25,7 +39,7 @@ const Navigator = () => {
     >
       <Tab.Screen
         name="History"
-        component={History}
+        component={HistoryStackNav}
         options={{
           tabBarLabel: "히스토리",
           tabBarIcon: ({ focused }) => (
@@ -36,17 +50,18 @@ const Navigator = () => {
           ),
         }}
       />
+
       <Tab.Screen
         name="Landing"
         component={Landing}
         options={{
           tabBarLabel: "홈",
-          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <HomeIcon fill={focused ? "#000" : "#BEBEBE"} style={styles.icon} />
           ),
         }}
       />
+
       <Tab.Screen
         name="MyPage"
         component={MyPage}
@@ -62,6 +77,4 @@ const Navigator = () => {
       />
     </Tab.Navigator>
   );
-};
-
-export default Navigator;
+}
