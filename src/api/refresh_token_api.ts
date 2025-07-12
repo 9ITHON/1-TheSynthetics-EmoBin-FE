@@ -6,7 +6,7 @@ const refreshTokenApi = async (
 ): Promise<RefreshResponse> => {
   try {
     const requestConfig = {
-      url: "http://52.64.128.49:8080/auth/refresh",
+      url: `${process.env.BASE_URL}/auth/refresh`,
       method: "POST",
       data: { refreshToken },
       headers: { "Content-Type": "application/json" },

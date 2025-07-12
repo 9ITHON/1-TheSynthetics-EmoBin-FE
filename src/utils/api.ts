@@ -5,7 +5,7 @@ import { useTokenStore }   from "../stores/tokenStore";
 import { useAuthStore }    from "../stores/authStore";
 
 const api = axios.create({
-  baseURL: "http://52.64.128.49:8080",
+  baseURL: process.env.BASE_URL,
   timeout: 10_000,
 });
 
