@@ -25,15 +25,15 @@ export const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
     marginLeft: 8,
   },
   section: {
     marginBottom: 32,
   },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: 'bold',
     marginBottom: 12,
   },
   input: {
@@ -95,7 +95,7 @@ export const styles = StyleSheet.create({
 
 
   submitButton: {
-    marginTop: 64,
+    marginTop: 32,
     backgroundColor: '#4A4A4A',
     borderRadius: 24,
     paddingVertical: 18,
@@ -105,5 +105,24 @@ export const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+  },
+  submitButtonDisabled: {
+    backgroundColor: '#C4C4C4',
+  },
+  termsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+  termsTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  termsText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginRight: 10,
   },
 });
