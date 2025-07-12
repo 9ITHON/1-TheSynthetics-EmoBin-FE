@@ -1,10 +1,25 @@
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { styles } from "./EmotionResult.styles";
-import Character1 from "../../../assets/images/character1.svg";
-import Shadow from "../../../assets/images/shadow.svg";
 import type { AnalysisData } from "../../types/analysis";
-import { EmotionResultNavProp } from "../../types/emotionResult";
+import CharacterHappy from "../../../assets/images/happy.svg";
+import CharacterSurprised from "../../../assets/images/surprised.svg";
+import CharacterSad from "../../../assets/images/sad.svg";
+import CharacterAngry from "../../../assets/images/angry.svg";
+import CharacterFearful from "../../../assets/images/scary.svg";
+import CharacterDisgust from "../../../assets/images/hate.svg";
+import CharacterDefault from "../../../assets/images/character1.svg";
+import type { EmotionResultNavProp } from "../../types/navigation";
+
+const characterMap = {
+  행복: CharacterHappy,
+  놀람: CharacterSurprised,
+  슬픔: CharacterSad,
+  분노: CharacterAngry,
+  공포: CharacterFearful,
+  혐오: CharacterDisgust,
+};
 
 const EmotionResult = () => {
   const navigation = useNavigation<EmotionResultNavProp>();
@@ -19,18 +34,24 @@ const EmotionResult = () => {
     );
   }
 
-  const { nickname, emotion, causes, message } = result;
+  const { nickname, emotion: rawEmotion, causes, message } = result;
+
+  useEffect(() => {
+    console.log("▶ rawEmotion:", rawEmotion);
+  }, [rawEmotion]);
+
+  const key = rawEmotion.split("(")[0].trim();
+  const CharacterComponent = characterMap[key] ?? CharacterDefault;
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{nickname}의 감정 분석 결과</Text>
 
       <View style={styles.characterContainer}>
-        <Character1 style={styles.characterImage} />
-        <Shadow style={styles.shadowImage} />
+        <CharacterComponent style={styles.characterImage} />
       </View>
 
-      <Text style={styles.emotion}>{emotion}</Text>
+      <Text style={styles.emotion}>{rawEmotion}</Text>
 
       <View style={styles.tagsContainer}>
         {causes.map((tag, idx) => (
@@ -58,7 +79,7 @@ const EmotionResult = () => {
             screen: "History",
             params: {
               screen: "Recommend",
-              params: { emotion, message },
+              params: { emotion: rawEmotion, message },
             },
           })
         }
