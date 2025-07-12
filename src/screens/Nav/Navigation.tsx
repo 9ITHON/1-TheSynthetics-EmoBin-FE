@@ -8,7 +8,6 @@ import { styles, tabStyles } from "./Navigation.styles";
 import HistoryIcon from "../../../assets/icons/history.svg";
 import HomeIcon from "../../../assets/icons/emobin.svg";
 import MyPageIcon from "../../../assets/icons/my.svg";
-
 import type {
   NavParamList,
   HistoryStackParamList,
@@ -29,6 +28,7 @@ function HistoryStackNav() {
 export default function Navigation() {
   return (
     <Tab.Navigator
+      initialRouteName="History"
       screenOptions={{
         headerShown: false,
         tabBarStyle: tabStyles.tabBar,
@@ -49,6 +49,12 @@ export default function Navigation() {
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate("History", { screen: "HistoryMain" });
+          },
+        })}
       />
 
       <Tab.Screen
@@ -67,6 +73,7 @@ export default function Navigation() {
         component={MyPage}
         options={{
           tabBarLabel: "마이페이지",
+          tabBarStyle: { display: "none" },
           tabBarIcon: ({ focused }) => (
             <MyPageIcon
               fill={focused ? "#000" : "#BEBEBE"}

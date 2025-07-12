@@ -19,8 +19,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   characterImage: {
-    width: 200,
-    height: 200,
+    width: 400,
+    height: 400,
   },
   shadowImage: {
     width: 100,
@@ -37,9 +37,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    width: "80%",
-    marginLeft: "auto",
+    width: "70%",
+    alignSelf: "center",
     marginBottom: 16,
+    justifyContent: "space-between",
   },
   tag: {
     fontSize: 14,

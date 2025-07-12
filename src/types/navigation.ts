@@ -17,13 +17,18 @@ export type RootStackParamList = {
   Recommend: { emotion: string; message: string };
 };
 
+export type LoginSuccessNavProp = NativeStackNavigationProp<
+  RootStackParamList,
+  "LoginSuccess"
+>;
+
 export type NavParamList = {
   History: undefined;
   Landing: undefined;
   MyPage: undefined;
 };
 
-export type LoginSuccessNavProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "LoginSuccess"
->;
+export type HistoryStackParamList = {
+  HistoryMain: undefined;
+  Recommend: undefined;
+};
