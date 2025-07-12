@@ -2,8 +2,9 @@ import axios from "axios";
 import qs from "qs"; // 작동은 잘 되는데 왜 빨간 밑줄 에러가 뜰까..?
 import { KakaoToken } from "../../types/kakao_api";
 import { KakaoProfile } from "../../types/kakao_api";
+import Config from "react-native-config";
 
-export const REST_KEY = "ce11a8c09ff42d519d2257d412297dc7";
+export const REST_KEY = process.env.REST_API_KEY;
 export const REDIRECT_URI = "https://dummy.emobin.app/oauth";
 
 export const AUTH_URL =
@@ -13,7 +14,7 @@ export const AUTH_URL =
     redirect_uri: REDIRECT_URI,
     response_type: "code",
     scope: "profile_nickname",
-  }).toString();
+  } as Record<string, string>).toString();
 
 
 
