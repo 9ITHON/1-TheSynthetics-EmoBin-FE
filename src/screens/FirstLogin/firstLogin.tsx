@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -10,6 +10,10 @@ import {
   Image,
   Alert,
 } from "react-native";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import ChecknoIcon from "../../../assets/checkno.svg";
+import CheckyesIcon from "../../../assets/checkyes.svg";
+import NextIcon from "../../../assets/icons/forward.svg";
 import { Picker } from "@react-native-picker/picker";
 import { styles } from "./firstLogin.style";
 
@@ -25,6 +29,9 @@ import { RootStackParamList } from "../../types/navigation";
 const pad2 = (n: number | "") => (n === "" ? "" : String(n).padStart(2, "0"));
 
 const FirstLogin = () => {
+  const [isTermsModalVisible, setIsTermsModalVisible] = useState(false);
+  const [isTermsAgreed, setIsTermsAgreed] = useState(false);
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -52,6 +59,10 @@ const FirstLogin = () => {
   const days   = useMemo(() => Array.from({ length: 31 }, (_, i) => i + 1), []);
 
   const handleSubmit = async () => {
+    if (!isTermsAgreed) {
+      Alert.alert("약관 동의 필요", "서비스 이용약관에 동의해 주세요.");
+      return;
+    }
     if (!nickname || !gender || year === "" || month === "" || day === "") {
       Alert.alert("입력 오류", "모든 항목을 입력해 주세요.");
       return;
@@ -85,6 +96,16 @@ const FirstLogin = () => {
         err.response?.data?.message ?? "잠시 후 다시 시도해 주세요."
       );
     }
+  };
+
+  const handleTermsAgree = () => {
+    setIsTermsAgreed(true);
+    setIsTermsModalVisible(false);
+  };
+
+  const handleTermsDisagree = () => {
+    setIsTermsAgreed(false);
+    setIsTermsModalVisible(false);
   };
 
   return (
@@ -178,14 +199,44 @@ const FirstLogin = () => {
           </View>
         </View>
 
+        <View style={styles.termsContainer}>
+          <View>
+            {isTermsAgreed ? (
+              <CheckyesIcon width={24} height={24} />
+            ) : (
+              <ChecknoIcon width={24} height={24} />
+            )}
+          </View>
+          <TouchableOpacity onPress={() => setIsTermsModalVisible(true)}>
+            <View style={styles.termsTextContainer}>
+              <Text style={styles.termsText}>  서비스 이용약관</Text>
+              <NextIcon width={18} height={18} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity
-          style={styles.submitButton}
+          style={[
+            styles.submitButton,
+            !isTermsAgreed && styles.submitButtonDisabled,
+          ]}
           onPress={handleSubmit}
           activeOpacity={0.8}
+          disabled={!isTermsAgreed}
         >
           <Text style={styles.submitText}>동의</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      <ConfirmationModal
+        isVisible={isTermsModalVisible}
+        onClose={handleTermsDisagree}
+        title="서비스 이용약관"
+        message="본 약관은 Emobin이 제공하는 모든 서비스의 이용조건 및 절차, 이용자와 당 앱의 권리, 의무, 책임사항과 기타 필요한 사항을 규정함을 목적으로 합니다."
+        onConfirm={handleTermsAgree}
+        confirmText="동의"
+        cancelText="동의하지 않음"
+      />
     </SafeAreaView>
   );
 };
