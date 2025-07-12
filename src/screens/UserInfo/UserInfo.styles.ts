@@ -112,7 +112,6 @@ export const styles = StyleSheet.create({
     color: "#000",
   },
   logoutSection: {
-    // 절대 위치로 하단에 고정
     position: "absolute",
     bottom: "10%",
     left: 0,
