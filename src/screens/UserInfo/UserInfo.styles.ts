@@ -85,10 +85,13 @@ export const styles = StyleSheet.create({
   logoutSection: {
     marginTop: 40,
     alignItems: "center",
+    flexDirection: 'row', 
+    justifyContent: 'center',
   },
   logoutText: {
     fontSize: 14,
-    color: "#999",
+    color: '#666',
+    marginHorizontal: 4,  
   },
   divider: {
     height: 1,
@@ -145,5 +148,11 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E9E9E9",
     borderRadius: 20,
+  },
+  loadingText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 50,
+    color: "#666",
   },
 });
