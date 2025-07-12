@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFDF7",
     paddingHorizontal: 20,
-    paddingTop: 40,
+    paddingTop: 60,
   },
   headerContainer: {
     flexDirection: "row",
@@ -31,10 +31,13 @@ export const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     elevation: 2,
+    width: "90%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
 
   firstTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#333",
     marginBottom: 8,

@@ -64,6 +64,7 @@ const Notice = () => {
       <FlatList
         data={notices}
         keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
         renderItem={({ item }) => {
           if (item.id === "1") {

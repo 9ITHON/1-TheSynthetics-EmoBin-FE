@@ -17,12 +17,13 @@ import BackIcon from "../../../assets/icons/back.svg";
 import Pencil from "../../../assets/icons/pencil.svg";
 import ForwardIcon from "../../../assets/icons/forward.svg";
 import { RootStackParamList } from "../../types/navigation";
-import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal"; 
-import logoutApi from "../../api/Logout_api"; 
-import withdrawalApi from "../../api/Deletemember_api"; 
-import { useAuthStore } from "../../stores/authStore"; 
-import { useTokenStore } from "../../stores/tokenStore"; 
-import { clearTokens as clearSecureStoreTokens } from "../../utils/tokenStorage"; 
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import logoutApi from "../../api/Logout_api";
+import withdrawalApi from "../../api/Deletemember_api";
+import { useAuthStore } from "../../stores/authStore";
+import { useTokenStore } from "../../stores/tokenStore";
+import { clearTokens as clearSecureStoreTokens } from "../../utils/tokenStorage";
+import Avatar from "../../../assets/images/avatar.svg";
 
 const UserInfo = () => {
   const navigation =
@@ -33,13 +34,14 @@ const UserInfo = () => {
   const [gender, setGender] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [isLogoutModalVisible, setLogoutModalVisible] = useState<boolean>(false);
-  const [isWithdrawalModalVisible, setWithdrawalModalVisible] = useState<boolean>(false);
+  const [isLogoutModalVisible, setLogoutModalVisible] =
+    useState<boolean>(false);
+  const [isWithdrawalModalVisible, setWithdrawalModalVisible] =
+    useState<boolean>(false);
 
   const authStoreLogout = useAuthStore((state) => state.logout);
   const { refreshToken } = useTokenStore.getState();
   const clearTokenStore = useTokenStore((state) => state.clear);
-
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -90,9 +92,9 @@ const UserInfo = () => {
     }
     try {
       await logoutApi(refreshToken);
-      await authStoreLogout(); 
-      await clearTokenStore(); 
-      await clearSecureStoreTokens(); 
+      await authStoreLogout();
+      await clearTokenStore();
+      await clearSecureStoreTokens();
       Alert.alert("알림", "로그아웃 되었습니다.");
       navigation.reset({
         index: 0,
@@ -112,9 +114,9 @@ const UserInfo = () => {
     }
     try {
       await withdrawalApi(refreshToken);
-      await authStoreLogout(); 
-      await clearTokenStore(); 
-      await clearSecureStoreTokens(); 
+      await authStoreLogout();
+      await clearTokenStore();
+      await clearSecureStoreTokens();
       Alert.alert("알림", "회원 탈퇴가 완료되었습니다.");
       navigation.reset({
         index: 0,
@@ -136,76 +138,69 @@ const UserInfo = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <BackIcon width={24} height={24} />
-        </TouchableOpacity>
-        <View style={styles.headerCenter}>
-          <Text style={styles.headerTitle}>회원정보</Text>
-        </View>
-        <View style={{ width: 24 }} />
-      </View>
-
-      <View style={styles.profileSection}>
-        <View style={styles.avatarPlaceholder} />
-        <View style={styles.profileText}>
-          {isEditing ? (
-            <TextInput
-              style={styles.usernameInput}
-              value={username}
-              onChangeText={setUsername}
-              onBlur={() => {
-                setIsEditing(false);
-                updateNickname(username);
-              }}
-              onSubmitEditing={() => {
-                setIsEditing(false);
-                updateNickname(username);
-              }}
-              autoFocus
-              returnKeyType="done"
-            />
-          ) : (
-            <Text style={styles.username}>{username}</Text>
-          )}
-          <TouchableOpacity
-            onPress={() => setIsEditing(true)}
-            style={styles.editButton}
-          >
-            <Text style={styles.subtext}>
-              아이디 수정 <Pencil width={15} />
-            </Text>
+      <View style={styles.contents}>
+        <View style={styles.headerContainer}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <BackIcon width={24} height={24} />
           </TouchableOpacity>
+          <View style={styles.headerCenter}>
+            <Text style={styles.headerTitle}>회원정보</Text>
+          </View>
+          <View style={{ width: 24 }} />
         </View>
-      </View>
 
-      <View style={styles.divider} />
+        <View style={styles.profileSection}>
+          <View style={styles.avatarPlaceholder}>
+            <Avatar style={styles.avatarSvg} />
+          </View>
+          <View style={styles.profileText}>
+            {isEditing ? (
+              <TextInput
+                style={styles.usernameInput}
+                value={username}
+                onChangeText={setUsername}
+                onBlur={() => {
+                  setIsEditing(false);
+                  updateNickname(username);
+                }}
+                onSubmitEditing={() => {
+                  setIsEditing(false);
+                  updateNickname(username);
+                }}
+                autoFocus
+                returnKeyType="done"
+              />
+            ) : (
+              <Text style={styles.username}>{username}</Text>
+            )}
+            <TouchableOpacity
+              onPress={() => setIsEditing(true)}
+              style={styles.editButton}
+            >
+              <Text style={styles.subtext}>
+                아이디 수정 <Pencil width={15} />
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
 
-      <View style={styles.menuItem}>
-        <Text style={styles.menuTitle}>개인정보 이용 약관</Text>
-        <ForwardIcon width={16} height={16} />
-      </View>
-      <View style={styles.menuItem}>
-        <Text style={styles.menuTitle}>마케팅 수신 동의</Text>
-        <ForwardIcon width={16} height={16} />
-      </View>
-
-      <View style={styles.infoRow}>
-        <Text style={styles.infoLabel}>생년월일</Text>
-        <TouchableOpacity>
-          <Text style={styles.infoValue}>{birthDate}</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ position: "relative" }}>
-        <View style={styles.infoRow}>
-          <Text style={styles.infoLabel}>성별</Text>
+        <View style={styles.birthInfoRow}>
+          <Text style={styles.infoLabel}>생년월일</Text>
           <TouchableOpacity>
-            <Text style={styles.infoValue}>{gender}</Text>
+            <Text style={styles.infoValue}>{birthDate}</Text>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.divider} />
+        <View style={{ position: "relative" }}>
+          <View style={styles.genderInfoRow}>
+            <Text style={styles.infoLabel}>성별</Text>
+            <TouchableOpacity>
+              <Text style={styles.infoValue}>{gender}</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.divider} />
+        </View>
       </View>
 
       <View style={styles.logoutSection}>
