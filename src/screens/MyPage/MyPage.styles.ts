@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFDF7",
     paddingHorizontal: 20,
-    paddingTop: 60,
+    paddingTop: 80,
   },
   header: {
     fontSize: 18,
@@ -14,7 +14,9 @@ export const styles = StyleSheet.create({
   },
   contents: {
     width: "90%",
-    margin: "auto",
+    marginTop: "40%",
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   optionContainer: {
     flexDirection: "row",
