@@ -15,6 +15,7 @@ export type RootStackParamList = {
   History: undefined;
   FirstLogin: undefined;
   Recommend: { emotion: string; message: string };
+  MainTabs: undefined;
 };
 
 export type NavParamList = {

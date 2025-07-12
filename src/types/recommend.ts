@@ -10,3 +10,8 @@ export interface Movie {
   releaseDate: string;
   rating: number;
 }
+
+export interface PlayItem {
+  musictitle: string;
+  musicUrl: string;
+}
