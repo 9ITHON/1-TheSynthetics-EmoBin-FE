@@ -38,7 +38,7 @@ const WriteNote = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <View style={{ flex: 1 }} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Notice")}>
             <NotificationIcon width={24} height={24} />
           </TouchableOpacity>
         </View>
@@ -48,6 +48,7 @@ const WriteNote = () => {
             source={require("../../../assets/images/note.png")}
             style={styles.noteImage}
           />
+
           <TouchableOpacity style={styles.textInputWrapper} activeOpacity={1}>
             <TextInput
               style={styles.textInput}

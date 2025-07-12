@@ -1,12 +1,13 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native";
 import { styles } from "./Notice.styles";
 import ImportantIcon from "../../../assets/icons/important.svg";
 import BackIcon from "../../../assets/icons/back.svg";
+import HelpIcon from "../../../assets/icons/help.svg";
+import { useState } from "react";
 
 const HIGHLIGHT = "캘린더 앱 ‘전체접근’이 필요합니다.";
-
 const notices = [
   {
     id: "1",
@@ -48,6 +49,7 @@ const notices = [
 
 const Notice = () => {
   const navigation = useNavigation();
+  const [helpVisible, setHelpVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -58,7 +60,9 @@ const Notice = () => {
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>공지사항</Text>
         </View>
-        <View style={{ width: 24 }} />
+        <TouchableOpacity onPress={() => setHelpVisible(true)}>
+          <HelpIcon width={24} height={24} style={styles.helpIcon} />
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -66,33 +70,55 @@ const Notice = () => {
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => {
-          if (item.id === "1") {
-            return (
-              <View style={styles.noticeCard}>
-                <Text style={styles.firstTitle}>{item.title}</Text>
-                <View style={styles.noticeContentRow}>
-                  <ImportantIcon
-                    width={20}
-                    height={20}
-                    style={styles.importantIcon}
-                  />
-                  <Text style={styles.normalText}>{item.subtitle}</Text>
-                </View>
+        renderItem={({ item }) =>
+          item.id === "1" ? (
+            <View style={styles.noticeCard}>
+              <Text style={styles.firstTitle}>{item.title}</Text>
+              <View style={styles.noticeContentRow}>
+                <ImportantIcon
+                  width={20}
+                  height={20}
+                  style={styles.importantIcon}
+                />
+                <Text style={styles.normalText}>{item.subtitle}</Text>
               </View>
-            );
-          }
-
-          return (
+            </View>
+          ) : (
             <View style={styles.noticeCard}>
               <View style={styles.noticeContentRow}>
                 <Text style={styles.boldText}>{item.content}</Text>
               </View>
               <Text style={styles.noticeDate}>{item.date}</Text>
             </View>
-          );
-        }}
+          )
+        }
       />
+
+      <Modal
+        visible={helpVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setHelpVisible(false)}
+      >
+        <View style={styles.helpModalOverlay}>
+          <View style={styles.helpModalContainer}>
+            <TouchableOpacity
+              style={styles.helpCloseIcon}
+              onPress={() => setHelpVisible(false)}
+            >
+              <BackIcon width={20} height={20} />
+            </TouchableOpacity>
+            <Text style={styles.helpTitle}>고객센터</Text>
+            <Text style={styles.helpEmail}>sprisunny12@gmail.com</Text>
+            <Text style={styles.helpEmailText}>이메일로 문의하기</Text>
+
+            <TouchableOpacity
+              style={styles.helpCloseButton}
+              onPress={() => setHelpVisible(false)}
+            ></TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

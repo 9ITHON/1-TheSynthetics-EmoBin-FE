@@ -65,7 +65,7 @@ const Landing = () => {
         <TouchableOpacity onPress={() => navigation.navigate("MyPage")}>
           <MyIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Notice")}>
           <NotificationIcon width={24} height={24} style={styles.icon} />
         </TouchableOpacity>
       </View>
