@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { RootStackParamList } from "./src/types/navigation";
-
 import { refreshTokenApi } from "./src/api/refresh_token_api";
 import { navigationRef } from "./src/navigation/RootNavigation";
 import { useTokenStore } from "./src/stores/tokenStore";
 import { useAuthStore } from "./src/stores/authStore";
-
 import LoginScreen from "./src/screens/Login/LoginScreen";
 import KakaoLoginWebview from "./src/screens/Login/KakaoLoginWebview";
 import LoginSuccessScreen from "./src/screens/Login/LoginSuccess";

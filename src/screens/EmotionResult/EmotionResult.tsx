@@ -1,7 +1,5 @@
-import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-
 import { styles } from "./EmotionResult.styles";
 import Character1 from "../../../assets/images/character1.svg";
 import Shadow from "../../../assets/images/shadow.svg";

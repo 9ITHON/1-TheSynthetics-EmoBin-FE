@@ -1,4 +1,3 @@
-// src/components/Recommend/Recommend.tsx
 import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
@@ -10,8 +9,6 @@ import {
   Dimensions,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import type { RouteProp } from "@react-navigation/native";
-import type { RootStackParamList } from "../../types/navigation";
 import { styles, POSTER_WIDTH, POSTER_SPACING } from "./Recommend.styles";
 import api from "../../utils/api";
 import { useTokenStore } from "../../stores/tokenStore";

@@ -1,13 +1,9 @@
-// src/screens/Nav/Navigation.tsx
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import Landing from "../Landing/Landing";
 import History from "../History/History";
 import Recommend from "../Recommend/Recommend";
 import MyPage from "../MyPage/MyPage";
-
 import { styles, tabStyles } from "./Navigation.styles";
 import HistoryIcon from "../../../assets/icons/history.svg";
 import HomeIcon from "../../../assets/icons/emobin.svg";
