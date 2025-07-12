@@ -14,6 +14,7 @@ export type RootStackParamList = {
   EmotionResult: { result: any };
   History: undefined;
   FirstLogin: undefined;
+  Recommend: { emotion: string; message: string };
 };
 
 export type NavParamList = {

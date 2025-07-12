@@ -22,6 +22,7 @@ import MyPage from "./src/screens/MyPage/MyPage";
 import UserInfo from "./src/screens/UserInfo/UserInfo";
 import Notice from "./src/screens/Notice/Notice";
 import HelpCenter from "./src/screens/HelpCenter/HelpCenter";
+import Recommend from "./src/screens/Recommend/Recommend";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -117,10 +118,11 @@ export default function App() {
         <Stack.Screen name="Processing" component={Processing} />
         <Stack.Screen name="EmotionResult" component={EmotionResult} />
         <Stack.Screen name="History" component={Navigation} />
-        <Stack.Screen name="MyPage" component={MyPage} />
+        <Stack.Screen name="MyPage" component={Navigation} />
         <Stack.Screen name="UserInfo" component={UserInfo} />
         <Stack.Screen name="Notice" component={Notice} />
         <Stack.Screen name="HelpCenter" component={HelpCenter} />
+        <Stack.Screen name="Recommend" component={Navigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -54,7 +54,9 @@ const EmotionResult = () => {
         </Text>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("History")}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Recommend", { emotion, message })}
+      >
         <Text style={styles.recommendation}>맞춤 추천 리스트 보기</Text>
       </TouchableOpacity>
     </View>
