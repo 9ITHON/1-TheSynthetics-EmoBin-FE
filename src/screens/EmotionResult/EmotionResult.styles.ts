@@ -37,9 +37,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
-    width: "80%",
-    marginLeft: "auto",
+    width: "70%",
+    alignSelf: "center",
     marginBottom: 16,
+    justifyContent: "space-between",
   },
   tag: {
     fontSize: 14,
